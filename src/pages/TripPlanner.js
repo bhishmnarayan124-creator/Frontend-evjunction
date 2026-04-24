@@ -1,5 +1,5 @@
 import { tripAPI } from "@/lib/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 /* ─────────────────────────── EV DATABASE ─────────────────────────── */
@@ -268,32 +268,26 @@ const TripPlanner = () => {
 
   const handleSwap = () => { const t = from; setFrom(to); setTo(t); };
 
-  const handleCalculate = async () => {
-    if (!from.trim() || !to.trim()) return;
+  const handleCalculate = useCallback(async () => {
+  if (!from.trim() || !to.trim()) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const response = await tripAPI.calculate({
-        from: from.trim(),
-        to: to.trim(),
-        range: car.range,
-        battery: battery,
-      });
+  try {
+    const response = await tripAPI.calculate({
+      from: from.trim(),
+      to: to.trim(),
+      range: car.range,
+      battery: battery,
+    });
 
-      setResult(response.data);
-    } catch (error) {
-      console.error("Trip API error:", error);
-    }
+    setResult(response.data);
+  } catch (error) {
+    console.error("Trip API error:", error);
+  }
 
-    setLoading(false);
-  };
-
-  const handlePopular = (route) => {
-    setFrom(route.from);
-    setTo(route.to);
-    setResult(null);
-  };
+  setLoading(false);
+}, [from, to, car.range, battery]);
 
   const readyRange = Math.round(car.range * (battery / 100));
 
@@ -303,7 +297,7 @@ const TripPlanner = () => {
   if (urlFrom && urlTo && urlRange) {
     handleCalculate();
   }
-}, []);
+}, [urlFrom, urlTo, urlRange, handleCalculate]);
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", minHeight: "100vh", paddingTop: 64 }}>

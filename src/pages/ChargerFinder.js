@@ -267,7 +267,7 @@ const ChargerFinder = () => {
         })
       );
     }
-  }, [userLocation]);
+  }, [userLocation, chargers]);  
 
   // Filter chargers based on search and filters
   useEffect(() => {
