@@ -565,21 +565,7 @@ const Home = () => {
           <div className="absolute bottom-10 left-10 w-24 h-24 rounded-full bg-purple-500/6 blur-2xl pointer-events-none" />
         </div>
 
-        {/* Stats strip below map — mobile only */}
-        <div className="mt-3 grid grid-cols-4 gap-2 sm:hidden">
-          {[
-            { icon: '⚡', val: '12K+', label: 'Chargers' },
-            { icon: '🏨', val: '860+', label: 'Hotels' },
-            { icon: '🚗', val: '5.2K+', label: 'EVs' },
-            { icon: '👥', val: '50K+', label: 'Drivers' },
-          ].map((s) => (
-            <div key={s.label} className="bg-[#0d1525]/60 border border-white/8 rounded-xl p-2 text-center backdrop-blur-sm">
-              <div className="text-base leading-none mb-0.5">{s.icon}</div>
-              <div className="text-[var(--accent)] font-bold text-xs leading-tight">{s.val}</div>
-              <div className="text-[var(--text2)] text-[9px] leading-tight mt-0.5">{s.label}</div>
-            </div>
-          ))}
-        </div>
+      
       </div>
 
       {/* FEATURED CHARGERS */}
