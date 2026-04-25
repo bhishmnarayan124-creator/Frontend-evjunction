@@ -72,7 +72,7 @@ const ROLES = [
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
 
   const [mode, setMode] = useState(
     searchParams.get('mode') === 'register' ? 'register' : 'login'
@@ -90,25 +90,40 @@ const Auth = () => {
   const selectedRole = ROLES.find((r) => r.value === formData.role);
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/dashboard');
-  }, [isAuthenticated, navigate]);
+    if (isAuthenticated && user) {
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  }, [isAuthenticated, user, navigate]);
 
   const handleChange = (field, value) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     console.log("Submitting role:", formData.role);
+    console.log("Submitting role:", formData.role);
+
     setLoading(true);
+
     try {
       if (mode === 'login') {
         const response = await authAPI.login({
           email: formData.email,
           password: formData.password,
         });
+
         login(response.data.access_token, response.data.user);
         toast.success('Welcome back!');
-        navigate('/dashboard');
+
+        if (response.data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+
       } else {
         const response = await authAPI.register({
           email: formData.email,
@@ -118,10 +133,17 @@ const Auth = () => {
           city: formData.city || undefined,
           role: formData.role,
         });
+
         login(response.data.access_token, response.data.user);
         toast.success('Account created successfully!');
-        navigate('/dashboard');
+
+        if (response.data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       }
+
     } catch (error) {
       console.error('Auth error:', error);
       toast.error(error.response?.data?.detail || 'Authentication failed');
@@ -229,34 +251,34 @@ const Auth = () => {
   };
 
   const renderFooter = () => {
-  if (mode === 'login') {
+    if (mode === 'login') {
+      return (
+        <p className="text-xs text-center text-[var(--text2)]">
+          Don&apos;t have an account?{' '}
+          <span
+            onClick={() => setMode('register')}
+            className="cursor-pointer hover:underline font-semibold text-[var(--accent)]"
+            data-testid="switch-to-register"
+          >
+            Sign up free
+          </span>
+        </p>
+      );
+    }
+
     return (
       <p className="text-xs text-center text-[var(--text2)]">
-        Don&apos;t have an account?{' '}
+        Already have an account?{' '}
         <span
-          onClick={() => setMode('register')}
+          onClick={() => setMode('login')}
           className="cursor-pointer hover:underline font-semibold text-[var(--accent)]"
-          data-testid="switch-to-register"
+          data-testid="switch-to-login"
         >
-          Sign up free
+          Sign in
         </span>
       </p>
     );
-  }
-
-  return (
-    <p className="text-xs text-center text-[var(--text2)]">
-      Already have an account?{' '}
-      <span
-        onClick={() => setMode('login')}
-        className="cursor-pointer hover:underline font-semibold text-[var(--accent)]"
-        data-testid="switch-to-login"
-      >
-        Sign in
-      </span>
-    </p>
-  );
-};
+  };
 
   return (
     <div
@@ -427,8 +449,8 @@ const Auth = () => {
                 {loading
                   ? 'Please wait…'
                   : mode === 'login'
-                  ? 'Sign In →'
-                  : 'Create ' + selectedRole.label + ' Account →'}
+                    ? 'Sign In →'
+                    : 'Create ' + selectedRole.label + ' Account →'}
               </button>
             </form>
 
