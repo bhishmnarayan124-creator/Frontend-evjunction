@@ -415,60 +415,170 @@ const Home = () => {
       </div>
 
       {/* MAP SECTION */}
-      <div className="section" style={{ background: 'var(--bg2)', padding: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      {/* MAP SECTION */}
+      <div className="bg-[var(--bg2)] px-4 sm:px-8 lg:px-10 py-10">
+
+        {/* Section Header */}
+        <div className="flex items-start justify-between mb-5">
           <div>
-            <div className="section-label">📍 Live Map</div>
-            <h2 style={{ fontFamily: 'var(--font-head)', fontSize: '28px', fontWeight: 700, letterSpacing: '-.5px' }}>
-              Charging Stations Across India
+            <div className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[var(--accent)] mb-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
+              📍 Live Map
+            </div>
+            <h2
+              className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[var(--text)] leading-tight"
+              style={{ fontFamily: 'var(--font-head)' }}
+            >
+              Charging Stations<br className="sm:hidden" /> Across India
             </h2>
           </div>
-          <Link to="/chargers" className="see-all-btn">Open Full Map →</Link>
+          <Link
+            to="/chargers"
+            className="shrink-0 ml-3 text-xs sm:text-sm font-semibold text-[var(--accent)] border border-[var(--accent)]/60 rounded-full px-3 sm:px-4 py-1.5 hover:bg-[var(--accent)] hover:text-black transition-all duration-200 whitespace-nowrap"
+          >
+            Full Map →
+          </Link>
         </div>
-        <div className="map-wrap">
-          <div className="map-inner">
-            <div className="map-grid-lines"></div>
-            <div className="map-overlay"></div>
-            <div className="user-pin" style={{ top: '47%', left: '37%' }}><div className="user-pin-dot"></div></div>
-            <div className="mpin mpin-dc" style={{ top: '24%', left: '35%' }}>
-              <div className="mpin-icon">⚡</div>
-              <div className="mpin-label">Tata Power</div>
+
+        {/* Map Container */}
+        <div
+          className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40"
+          style={{ height: 'clamp(380px, 55vw, 520px)' }}
+        >
+          {/* Background */}
+          <div className="absolute inset-0 bg-[#070d18]">
+            {/* Grid */}
+            <div
+              className="absolute inset-0 opacity-[0.12]"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)`,
+                backgroundSize: '40px 40px',
+              }}
+            />
+            {/* Glow pools */}
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 65% 55% at 38% 52%, rgba(16,185,129,0.14) 0%, transparent 70%)' }} />
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 45% 40% at 68% 28%, rgba(59,130,246,0.13) 0%, transparent 65%)' }} />
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 35% 30% at 25% 70%, rgba(168,85,247,0.08) 0%, transparent 60%)' }} />
+          </div>
+
+          {/* SVG road lines */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <line x1="0" y1="48%" x2="100%" y2="43%" stroke="#10b981" strokeWidth="1.5" strokeDasharray="8 10" />
+            <line x1="22%" y1="0" x2="36%" y2="100%" stroke="#3b82f6" strokeWidth="1" strokeDasharray="5 12" />
+            <line x1="58%" y1="0" x2="72%" y2="100%" stroke="#10b981" strokeWidth="1" strokeDasharray="5 9" />
+            <line x1="0" y1="22%" x2="100%" y2="68%" stroke="#6366f1" strokeWidth="1" strokeDasharray="3 14" />
+          </svg>
+
+          {/* ── TOP BAR ── */}
+          <div className="absolute top-3 left-3 right-3 z-20 flex items-center gap-2">
+            {/* Search */}
+            <div className="flex items-center gap-2 flex-1 min-w-0 bg-[#0d1525]/80 backdrop-blur-xl border border-white/10 rounded-xl px-3 py-2 shadow-lg">
+              <span className="text-sm shrink-0 opacity-60">🔍</span>
+              <input
+                className="bg-transparent text-[var(--text)] placeholder-[var(--text2)] text-xs sm:text-sm outline-none w-full truncate"
+                placeholder="Search city or station..."
+              />
             </div>
-            <div className="mpin mpin-ac" style={{ top: '40%', left: '54%' }}>
-              <div className="mpin-icon">🔌</div>
-              <div className="mpin-label">EESL BKC</div>
-            </div>
-            <div className="mpin mpin-fast" style={{ top: '58%', left: '29%' }}>
-              <div className="mpin-icon">🚀</div>
-              <div className="mpin-label">Zeon Dadar</div>
-            </div>
-            <div className="mpin mpin-dc" style={{ top: '28%', left: '65%' }}>
-              <div className="mpin-icon">⚡</div>
-              <div className="mpin-label">MG Powai</div>
-            </div>
-            <div className="mpin mpin-hotel" style={{ top: '65%', left: '55%' }}>
-              <div className="mpin-icon">🏨</div>
-              <div className="mpin-label">Taj Hotel</div>
-            </div>
-            <div className="map-top-bar">
-              <div className="map-search-box">
-                <span style={{ fontSize: '16px', color: 'var(--text2)' }}>🔍</span>
-                <input placeholder="Search city or station..." />
-              </div>
-              <div className="map-legend">
-                <div className="legend-item"><div className="legend-dot" style={{ background: 'var(--accent)' }}></div>DC Fast</div>
-                <div className="legend-item"><div className="legend-dot" style={{ background: 'var(--blue)' }}></div>AC Slow</div>
-                <div className="legend-item"><div className="legend-dot" style={{ background: 'var(--orange)' }}></div>Superfast</div>
-                <div className="legend-item"><div className="legend-dot" style={{ background: 'var(--purple)' }}></div>Hotel</div>
-              </div>
-            </div>
-            <div className="map-bottom-bar">
-              <div className="filter-chip on">⚡ Fast Charger</div>
-              <div className="filter-chip">🆓 Free</div>
-              <div className="filter-chip">🏨 Hotels</div>
-              <div className="filter-chip on">✅ Available Now</div>
+            {/* Legend dots — always visible, labels only on sm+ */}
+            <div className="flex items-center gap-2 bg-[#0d1525]/80 backdrop-blur-xl border border-white/10 rounded-xl px-3 py-2 shadow-lg shrink-0">
+              {[
+                { color: 'bg-emerald-400', shadow: 'shadow-emerald-400/50', label: 'DC' },
+                { color: 'bg-blue-400', shadow: 'shadow-blue-400/50', label: 'AC' },
+                { color: 'bg-orange-400', shadow: 'shadow-orange-400/50', label: 'Ultra' },
+                { color: 'bg-purple-400', shadow: 'shadow-purple-400/50', label: 'Hotel' },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-1">
+                  <div className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-sm ${item.shadow}`} />
+                  <span className="text-[10px] text-[var(--text2)] hidden sm:inline font-medium">{item.label}</span>
+                </div>
+              ))}
             </div>
           </div>
+
+          {/* ── USER LOCATION ── */}
+          <div className="absolute z-10" style={{ top: '47%', left: '37%', transform: 'translate(-50%, -50%)' }}>
+            <div className="relative flex items-center justify-center">
+              <div className="absolute w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-400/20 animate-ping" />
+              <div className="absolute w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-blue-400/8 animate-pulse" />
+              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-blue-400 border-2 border-white shadow-xl shadow-blue-400/70 z-10" />
+            </div>
+          </div>
+
+          {/* ── CHARGER PINS ── */}
+          {[
+            { icon: '⚡', label: 'Tata Power', top: '22%', left: '35%', glow: 'shadow-emerald-400/40', border: 'border-emerald-400/50', dot: 'bg-emerald-400', text: 'text-emerald-300' },
+            { icon: '🔌', label: 'EESL BKC', top: '38%', left: '56%', glow: 'shadow-blue-400/40', border: 'border-blue-400/50', dot: 'bg-blue-400', text: 'text-blue-300' },
+            { icon: '🚀', label: 'Zeon Dadar', top: '62%', left: '27%', glow: 'shadow-orange-400/40', border: 'border-orange-400/50', dot: 'bg-orange-400', text: 'text-orange-300' },
+            { icon: '⚡', label: 'MG Powai', top: '26%', left: '67%', glow: 'shadow-emerald-400/40', border: 'border-emerald-400/50', dot: 'bg-emerald-400', text: 'text-emerald-300' },
+            { icon: '🏨', label: 'Taj Hotel', top: '67%', left: '58%', glow: 'shadow-purple-400/40', border: 'border-purple-400/50', dot: 'bg-purple-400', text: 'text-purple-300' },
+          ].map((pin) => (
+            <div
+              key={pin.label}
+              className="absolute z-10 group cursor-pointer"
+              style={{ top: pin.top, left: pin.left, transform: 'translate(-50%, -100%)' }}
+            >
+              {/* Tooltip */}
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1 rounded-lg bg-[#0d1525]/95 backdrop-blur-sm border border-white/10 text-[11px] font-semibold text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none shadow-xl">
+                {pin.label}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#0d1525]" />
+              </div>
+              {/* Bubble */}
+              <div className={`flex items-center gap-1.5 bg-[#0d1525]/85 backdrop-blur-xl border ${pin.border} rounded-full px-2 sm:px-3 py-1 sm:py-1.5 shadow-lg ${pin.glow} hover:scale-110 active:scale-95 transition-transform duration-150`}>
+                <div className={`w-2 h-2 rounded-full ${pin.dot} animate-pulse`} />
+                <span className="text-xs sm:text-sm leading-none">{pin.icon}</span>
+                <span className={`text-[10px] sm:text-xs font-semibold ${pin.text} hidden sm:inline`}>{pin.label}</span>
+              </div>
+              {/* Stem + base */}
+              <div className="w-px h-2 bg-white/20 mx-auto" />
+              <div className={`w-1.5 h-1.5 rounded-full ${pin.dot} mx-auto opacity-70`} />
+            </div>
+          ))}
+
+          {/* ── BOTTOM FILTER CHIPS ── */}
+          <div className="absolute bottom-3 left-3 right-3 z-20">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {[
+                { label: '⚡ Fast Charger', active: true, activeClass: 'bg-emerald-400/15 border-emerald-400/50 text-emerald-300' },
+                { label: '🆓 Free', active: false, activeClass: '' },
+                { label: '🏨 Hotels', active: false, activeClass: '' },
+                { label: '✅ Available Now', active: true, activeClass: 'bg-blue-400/15 border-blue-400/50 text-blue-300' },
+              ].map((chip) => (
+                <div
+                  key={chip.label}
+                  className={`
+              cursor-pointer text-[10px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border backdrop-blur-md transition-all duration-150 select-none whitespace-nowrap
+              ${chip.active
+                      ? chip.activeClass
+                      : 'bg-[#0d1525]/70 border-white/10 text-[var(--text2)] hover:border-white/25 hover:text-[var(--text)]'
+                    }
+            `}
+                >
+                  {chip.label}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Corner glows */}
+          <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-emerald-500/8 blur-3xl pointer-events-none" />
+          <div className="absolute top-0 left-0 w-36 h-36 rounded-full bg-blue-500/8 blur-2xl pointer-events-none" />
+          <div className="absolute bottom-10 left-10 w-24 h-24 rounded-full bg-purple-500/6 blur-2xl pointer-events-none" />
+        </div>
+
+        {/* Stats strip below map — mobile only */}
+        <div className="mt-3 grid grid-cols-4 gap-2 sm:hidden">
+          {[
+            { icon: '⚡', val: '12K+', label: 'Chargers' },
+            { icon: '🏨', val: '860+', label: 'Hotels' },
+            { icon: '🚗', val: '5.2K+', label: 'EVs' },
+            { icon: '👥', val: '50K+', label: 'Drivers' },
+          ].map((s) => (
+            <div key={s.label} className="bg-[#0d1525]/60 border border-white/8 rounded-xl p-2 text-center backdrop-blur-sm">
+              <div className="text-base leading-none mb-0.5">{s.icon}</div>
+              <div className="text-[var(--accent)] font-bold text-xs leading-tight">{s.val}</div>
+              <div className="text-[var(--text2)] text-[9px] leading-tight mt-0.5">{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
