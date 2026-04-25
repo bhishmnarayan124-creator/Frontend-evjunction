@@ -65,17 +65,17 @@ const Badge = ({ children, color = 'gray' }) => {
 };
 
 const StatusDot = ({ status }) => {
-  const map = { available: 'bg-[var(--accent)]', occupied: 'bg-amber-500', offline: 'bg-[var(--red)]', maintenance: 'bg-[var(--muted)]', approved: 'bg-[var(--accent)]', pending: 'bg-amber-500' };
+  const map = { available: 'bg-[var(--accent)]', occupied: 'bg-[var(--orange-dim)]', offline: 'bg-[var(--red)]', maintenance: 'bg-[var(--muted)]', approved: 'bg-[var(--accent)]', pending: 'bg-[var(--orange-dim)]' };
   return <span className={`inline-block w-2 h-2 rounded-full mr-1.5 flex-shrink-0 ${map[status] || 'bg-[var(--muted)]'}`} />;
 };
 
 const StatCard = ({ icon: Icon, label, value, delta, color, sub }) => {
   const colors = {
-    blue: { bg: 'bg-[var(--blue-dim)]', icon: 'text-[var(--blue)]', delta: 'text-[var(--blue)] bg-blue-50' },
-    purple: { bg: 'bg-[var(--purple-dim)]', icon: 'text-[var(--purple)]', delta: 'text-[var(--purple)] bg-purple-50' },
-    amber: { bg: 'bg-[var(--orange-dim)]', icon: 'text-[var(--orange)]', delta: 'text-[var(--orange)] bg-amber-50' },
-    green: { bg: 'bg-[var(--accent-dim)]', icon: 'text-[var(--accent)]', delta: 'text-emerald-600 bg-[var(--accent-dim)]' },
-    red: { bg: 'bg-[rgba(239,68,68,0.1)]', icon: 'text-[var(--red)]', delta: 'text-red-600 bg-red-50' },
+    blue: { bg: 'bg-[var(--blue-dim)]', icon: 'text-[var(--blue)]', delta: 'text-[var(--blue)] bg-[var(--accent-dim)]' },
+    purple: { bg: 'bg-[var(--purple-dim)]', icon: 'text-[var(--purple)]', delta: 'text-[var(--purple)] bg-[var(--purple-dim)]' },
+    amber: { bg: 'bg-[var(--orange-dim)]', icon: 'text-[var(--orange)]', delta: 'text-[var(--orange)] bg-[var(--orange-dim)]' },
+    green: { bg: 'bg-[var(--accent-dim)]', icon: 'text-[var(--accent)]', delta: 'text-[var(--accent)] bg-[var(--accent-dim)]' },
+    red: { bg: 'bg-[rgba(239,68,68,0.1)]', icon: 'text-[var(--red)]', delta: 'text-[var(--red)] bg-[rgba(239,68,68,0.1)]' },
   };
   const c = colors[color] || colors.blue;
   return (
@@ -94,14 +94,14 @@ const StatCard = ({ icon: Icon, label, value, delta, color, sub }) => {
 const FormInput = ({ label, ...props }) => (
   <div className="flex flex-col gap-1">
     {label && <label className="text-xs text-[var(--text2)] font-medium">{label}</label>}
-    <input className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] placeholder-neutral-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100" {...props} />
+    <input className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] placeholder-neutral-400 focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent-dim)]" {...props} />
   </div>
 );
 
 const FormSelect = ({ label, options = [], ...props }) => (
   <div className="flex flex-col gap-1">
     {label && <label className="text-xs text-[var(--text2)] font-medium">{label}</label>}
-    <select className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 cursor-pointer" {...props}>
+    <select className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent-dim)] cursor-pointer" {...props}>
       {options.map(o => <option key={o.value ?? o} value={o.value ?? o}>{o.label ?? o}</option>)}
     </select>
   </div>
@@ -110,7 +110,7 @@ const FormSelect = ({ label, options = [], ...props }) => (
 const FormTextarea = ({ label, ...props }) => (
   <div className="flex flex-col gap-1 col-span-2">
     {label && <label className="text-xs text-[var(--text2)] font-medium">{label}</label>}
-    <textarea className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] placeholder-neutral-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 resize-none" rows={3} {...props} />
+    <textarea className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] placeholder-neutral-400 focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent-dim)] resize-none" rows={3} {...props} />
   </div>
 );
 
@@ -202,7 +202,7 @@ const ConfirmDialog = ({ message, onConfirm, onCancel }) => (
     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onCancel} />
     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
       className="relative bg-[var(--card)] rounded-2xl shadow-2xl p-6 max-w-sm w-full z-10">
-      <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4"><Trash2 className="w-6 h-6 text-red-500" /></div>
+      <div className="w-12 h-12 rounded-full bg-[rgba(239,68,68,0.1)] flex items-center justify-center mx-auto mb-4"><Trash2 className="w-6 h-6 text-red-500" /></div>
       <h3 className="text-base font-semibold text-[var(--text)] text-center mb-2">Confirm Delete</h3>
       <p className="text-sm text-[var(--text2)] text-center mb-6">{message}</p>
       <div className="flex gap-3">
@@ -214,7 +214,7 @@ const ConfirmDialog = ({ message, onConfirm, onCancel }) => (
 );
 
 const ActivityRow = ({ data }) => {
-  const typeStyle = t => ({ approve: { dot: 'bg-[var(--accent)]', badge: 'green', label: 'Approved' }, reject: { dot: 'bg-red-400', badge: 'red', label: 'Rejected' }, delete: { dot: 'bg-red-500', badge: 'red', label: 'Deleted' }, edit: { dot: 'bg-amber-500', badge: 'amber', label: 'Edited' }, add: { dot: 'bg-[var(--accent)]', badge: 'blue', label: 'Added' } }[t] || { dot: 'bg-neutral-400', badge: 'gray', label: t });
+  const typeStyle = t => ({ approve: { dot: 'bg-[var(--accent)]', badge: 'green', label: 'Approved' }, reject: { dot: 'bg-red-400', badge: 'red', label: 'Rejected' }, delete: { dot: 'bg-[rgba(239,68,68,0.1)]', badge: 'red', label: 'Deleted' }, edit: { dot: 'bg-[var(--orange-dim)]', badge: 'amber', label: 'Edited' }, add: { dot: 'bg-[var(--accent)]', badge: 'blue', label: 'Added' } }[t] || { dot: 'bg-neutral-400', badge: 'gray', label: t });
   const s = typeStyle(data.type);
   return (
     <div className="flex items-center gap-4 px-5 py-3.5 border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg3)]">
@@ -256,11 +256,11 @@ const PageDashboard = ({ stats, pendingCount, onNav, goExternal, activityLogs })
           <div className="px-5 py-3.5 border-b border-[var(--border)]"><span className="text-sm font-semibold text-[var(--text)]">Quick actions</span></div>
           <div className="p-4 grid grid-cols-2 gap-2">
             {[
-              { label: 'Add EV car', action: () => goExternal('/sell'), color: 'text-[var(--accent)] bg-blue-50 border-blue-200 hover:bg-[var(--accent-dim)]' },
+              { label: 'Add EV car', action: () => goExternal('/sell'), color: 'text-[var(--accent)] bg-[var(--accent-dim)] border-blue-200 hover:bg-[var(--accent-dim)]' },
               // ✅ CHANGE 3 — Dashboard quick action bhi /add-charger route pe
-              { label: 'Add charger', action: () => goExternal('/add-charger'), color: 'text-green-700 bg-green-50 border-green-200 hover:bg-[var(--accent-dim)]' },
-              { label: 'Add hotel', action: () => goExternal('/add-hotel'), color: 'text-purple-700 bg-purple-50 border-purple-200 hover:bg-[var(--purple-dim)]' },
-              { label: 'Review pending', action: () => onNav('pending'), color: 'text-amber-700 bg-amber-50 border-amber-200 hover:bg-[var(--orange-dim)]' },
+              { label: 'Add charger', action: () => goExternal('/add-charger'), color: 'text-green-700 bg-[var(--accent-dim)] border-[var(--border)] hover:bg-[var(--accent-dim)]' },
+              { label: 'Add hotel', action: () => goExternal('/add-hotel'), color: 'text-[var(--purple)] bg-[var(--purple-dim)] border-[var(--border)] hover:bg-[var(--purple-dim)]' },
+              { label: 'Review pending', action: () => onNav('pending'), color: 'text-[var(--orange)] bg-[var(--orange-dim)] border-[var(--border)] hover:bg-[var(--orange-dim)]' },
             ].map((a, i) => (
               <button key={i} onClick={a.action} className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-xs font-medium transition-colors ${a.color}`}>
                 <Plus className="w-3.5 h-3.5" />{a.label}
@@ -381,8 +381,8 @@ const PagePending = ({ cars, onApprove, onReject, onDelete, onView }) => {
           </div>
           {selected.size > 0 && (
             <div className="flex gap-2">
-              <button onClick={() => { selected.forEach(id => onApprove(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-black text-xs font-medium hover:bg-emerald-700"><Check className="w-3.5 h-3.5" /> Approve all ({selected.size})</button>
-              <button onClick={() => { selected.forEach(id => onReject(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 text-xs font-medium hover:bg-red-50"><X className="w-3.5 h-3.5" /> Reject all</button>
+              <button onClick={() => { selected.forEach(id => onApprove(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--accent)] text-black text-xs font-medium hover:opacity-90"><Check className="w-3.5 h-3.5" /> Approve all ({selected.size})</button>
+              <button onClick={() => { selected.forEach(id => onReject(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--red)] text-xs font-medium hover:bg-[rgba(239,68,68,0.1)]"><X className="w-3.5 h-3.5" /> Reject all</button>
             </div>
           )}
         </div>
@@ -391,7 +391,7 @@ const PagePending = ({ cars, onApprove, onReject, onDelete, onView }) => {
             const cid = car.id || car._id;
             return (
               <motion.div key={cid} initial={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0, overflow: 'hidden' }} transition={{ duration: 0.25 }}
-                className={`flex gap-4 px-5 py-4 border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg3)] ${selected.has(cid) ? 'bg-blue-50/40' : ''}`}>
+                className={`flex gap-4 px-5 py-4 border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg3)] ${selected.has(cid) ? 'bg-[var(--accent-dim)]/40' : ''}`}>
                 <button onClick={() => toggle(cid)} className="text-[var(--muted)] hover:text-[var(--text2)] flex-shrink-0 mt-1">{selected.has(cid) ? <CheckSquare className="w-4 h-4 text-[var(--blue)]" /> : <Square className="w-4 h-4" />}</button>
                 <div className="w-24 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-[var(--bg3)] flex items-center justify-center">
                   {car.images?.[0] ? (
@@ -418,9 +418,9 @@ const PagePending = ({ cars, onApprove, onReject, onDelete, onView }) => {
                 </div>
                 <div className="flex flex-col gap-2 flex-shrink-0 justify-center">
                   <button onClick={() => onView(car)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--text2)] text-xs font-medium hover:bg-[var(--bg3)]"><Eye className="w-3.5 h-3.5" /> View</button>
-                  <button onClick={() => onApprove(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-black text-xs font-medium hover:bg-emerald-700"><Check className="w-3.5 h-3.5" /> Approve</button>
-                  <button onClick={() => onReject(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-200 text-red-600 text-xs font-medium hover:bg-red-50"><X className="w-3.5 h-3.5" /> Reject</button>
-                  <button onClick={() => setConfirm(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-xs hover:bg-red-50 hover:text-red-600 hover:border-red-200"><Trash2 className="w-3.5 h-3.5" /> Delete</button>
+                  <button onClick={() => onApprove(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--accent)] text-black text-xs font-medium hover:opacity-90"><Check className="w-3.5 h-3.5" /> Approve</button>
+                  <button onClick={() => onReject(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--red)] text-xs font-medium hover:bg-[rgba(239,68,68,0.1)]"><X className="w-3.5 h-3.5" /> Reject</button>
+                  <button onClick={() => setConfirm(cid)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] text-xs hover:bg-[rgba(239,68,68,0.1)] hover:text-[var(--red)] hover:border-[var(--border)]"><Trash2 className="w-3.5 h-3.5" /> Delete</button>
                 </div>
               </motion.div>
             );
@@ -443,7 +443,7 @@ const PageCarsList = ({ cars, total, page, limit, onPageChange, onDelete, onEdit
       {confirm && <ConfirmDialog message="Permanently delete this car listing?" onConfirm={() => { onDelete(confirm); setConfirm(null); }} onCancel={() => setConfirm(null)} />}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search cars..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-blue-400 w-56" /></div>
+          <div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search cars..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--accent)] w-56" /></div>
           {['all', 'approved', 'pending', 'rejected'].map(f => <button key={f} onClick={() => setStatusF(f)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${statusF === f ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-blue-200' : 'bg-[var(--card)] text-[var(--text2)] border-[var(--border)] hover:bg-[var(--bg3)]'}`}>{f.charAt(0).toUpperCase() + f.slice(1)}</button>)}
           <button onClick={() => goExternal('/sell')} className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[var(--accent)] text-black hover:opacity-90"><Plus className="w-3.5 h-3.5" /> Add car</button>
         </div>
@@ -458,7 +458,7 @@ const PageCarsList = ({ cars, total, page, limit, onPageChange, onDelete, onEdit
                   <td className="px-4 py-3 text-[var(--text2)]">{c.city}</td>
                   <td className="px-4 py-3 text-[var(--text2)]">{c.seller_name}</td>
                   <td className="px-4 py-3"><Badge color={c.status === 'approved' ? 'green' : c.status === 'rejected' ? 'red' : 'amber'}>{c.status}</Badge></td>
-                  <td className="px-4 py-3"><div className="flex items-center gap-1.5"><button onClick={() => onView(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-blue-50 hover:text-[var(--blue)]" title="View"><Eye className="w-3.5 h-3.5" /></button><button onClick={() => onEdit(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-amber-50 hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><button onClick={() => setConfirm(c.id || c._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-red-50 hover:text-red-600" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button></div></td>
+                  <td className="px-4 py-3"><div className="flex items-center gap-1.5"><button onClick={() => onView(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]" title="View"><Eye className="w-3.5 h-3.5" /></button><button onClick={() => onEdit(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--orange-dim)] hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><button onClick={() => setConfirm(c.id || c._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[rgba(239,68,68,0.1)] hover:text-[var(--red)]" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button></div></td>
                 </tr>
               ))}
             </tbody>
@@ -507,9 +507,9 @@ const PageChargersList = ({ chargers, total, page, limit, onPageChange, onDelete
       {confirm && <ConfirmDialog message="Delete this charging station permanently?" onConfirm={() => { onDelete(confirm); setConfirm(null); }} onCancel={() => setConfirm(null)} />}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search chargers..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-blue-400 w-56" /></div>
+          <div className="relative"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search chargers..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--accent)] w-56" /></div>
           {['all', 'available', 'occupied', 'offline'].map(f => <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${filter === f ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-blue-200' : 'bg-[var(--card)] text-[var(--text2)] border-[var(--border)] hover:bg-[var(--bg3)]'}`}>{f.charAt(0).toUpperCase() + f.slice(1)}</button>)}
-          {selected.size > 0 && <button onClick={() => { selected.forEach(id => onDelete(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Delete ({selected.size})</button>}
+          {selected.size > 0 && <button onClick={() => { selected.forEach(id => onDelete(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[rgba(239,68,68,0.1)] text-[var(--red)] border border-[var(--border)] hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Delete ({selected.size})</button>}
           {/* ✅ CHANGE 4 — goExternal('/add-charger') use ho raha hai ab */}
           <button onClick={() => goExternal('/add-charger')} className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[var(--accent)] text-black hover:opacity-90"><Plus className="w-3.5 h-3.5" /> Add charger</button>
         </div>
@@ -519,7 +519,7 @@ const PageChargersList = ({ chargers, total, page, limit, onPageChange, onDelete
             <tbody>
               {filtered.map(c => {
                 const id = c._id || c.id; return (
-                  <tr key={id} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(id) ? 'bg-blue-50/30' : ''}`}>
+                  <tr key={id} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(id) ? 'bg-[var(--accent-dim)]/30' : ''}`}>
                     <td className="px-4 py-3"><button onClick={() => toggle(id)} className="text-[var(--muted)] hover:text-[var(--text2)]">{selected.has(id) ? <CheckSquare className="w-4 h-4 text-[var(--blue)]" /> : <Square className="w-4 h-4" />}</button></td>
                     <td className="px-4 py-3"><div className="font-medium text-[var(--text)]">{c.name}</div><div className="text-xs text-[var(--muted)] truncate max-w-[180px]">{c.address}</div></td>
                     <td className="px-4 py-3 text-[var(--text2)]">{c.city}</td>
@@ -528,7 +528,7 @@ const PageChargersList = ({ chargers, total, page, limit, onPageChange, onDelete
                     <td className="px-4 py-3 text-[var(--text2)]">₹{c.pricePerKwh || c.price_per_kwh}</td>
                     <td className="px-4 py-3"><span className="flex items-center"><StatusDot status={c.status} />{c.status}</span></td>
                     <td className="px-4 py-3"><Badge color="gray">{c.source}</Badge></td>
-                    <td className="px-4 py-3"><div className="flex items-center gap-1"><button onClick={() => onView(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-blue-50 hover:text-[var(--blue)]" title="View"><Eye className="w-3.5 h-3.5" /></button><button onClick={() => onEdit(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-amber-50 hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><button onClick={() => setConfirm(id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-red-50 hover:text-red-600" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button></div></td>
+                    <td className="px-4 py-3"><div className="flex items-center gap-1"><button onClick={() => onView(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]" title="View"><Eye className="w-3.5 h-3.5" /></button><button onClick={() => onEdit(c)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--orange-dim)] hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><button onClick={() => setConfirm(id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[rgba(239,68,68,0.1)] hover:text-[var(--red)]" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button></div></td>
                   </tr>
                 );
               })}
@@ -556,7 +556,7 @@ const PageHotelsList = ({ hotels, total, page, limit, onPageChange, onApprove, o
       <div>
         <div className="flex items-center gap-3 mb-4">
           {['all', 'approved', 'pending'].map(f => <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${filter === f ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-blue-200' : 'bg-[var(--card)] text-[var(--text2)] border-[var(--border)] hover:bg-[var(--bg3)]'}`}>{f.charAt(0).toUpperCase() + f.slice(1)}</button>)}
-          {selected.size > 0 && <button onClick={() => { selected.forEach(id => onDelete(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Delete ({selected.size})</button>}
+          {selected.size > 0 && <button onClick={() => { selected.forEach(id => onDelete(id)); setSelected(new Set()); }} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[rgba(239,68,68,0.1)] text-[var(--red)] border border-[var(--border)] hover:bg-red-100"><Trash2 className="w-3.5 h-3.5" /> Delete ({selected.size})</button>}
           <button onClick={() => goExternal('/add-hotel')} className="ml-auto flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[var(--accent)] text-black hover:opacity-90"><Plus className="w-3.5 h-3.5" /> Add hotel</button>
         </div>
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
@@ -564,7 +564,7 @@ const PageHotelsList = ({ hotels, total, page, limit, onPageChange, onApprove, o
             <thead className="bg-[var(--bg3)] border-b border-[var(--border)]"><tr><th className="w-8 px-4 py-3"><button onClick={toggleAll} className="text-[var(--muted)] hover:text-[var(--text2)]">{selected.size === filtered.length && filtered.length > 0 ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}</button></th>{['Hotel', 'City', 'Price/night', 'EV chargers', 'Views', 'Status', 'Actions'].map(h => <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-[var(--text2)] uppercase tracking-wider">{h}</th>)}</tr></thead>
             <tbody>
               {filtered.map(h => (
-                <tr key={h._id} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(h._id) ? 'bg-blue-50/30' : ''}`}>
+                <tr key={h._id} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(h._id) ? 'bg-[var(--accent-dim)]/30' : ''}`}>
                   <td className="px-4 py-3"><button onClick={() => toggle(h._id)} className="text-[var(--muted)] hover:text-[var(--text2)]">{selected.has(h._id) ? <CheckSquare className="w-4 h-4 text-[var(--blue)]" /> : <Square className="w-4 h-4" />}</button></td>
                   <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-lg bg-[var(--bg3)] flex items-center justify-center flex-shrink-0 overflow-hidden">{h.images?.[0] ? <img src={`${process.env.REACT_APP_BACKEND_URL || ''}${h.images[0]}`} alt="" className="w-full h-full object-cover" /> : <Building2 className="w-4 h-4 text-[var(--muted)]" />}</div><span className="font-medium text-[var(--text)]">{h.name}</span></div></td>
                   <td className="px-4 py-3 text-[var(--text2)]">{h.city}</td>
@@ -573,10 +573,10 @@ const PageHotelsList = ({ hotels, total, page, limit, onPageChange, onApprove, o
                   <td className="px-4 py-3"><span className="flex items-center gap-1 text-[var(--text2)] text-xs"><Eye className="w-3 h-3" />{h.view_count || 0}</span></td>
                   <td className="px-4 py-3"><Badge color={h.status === 'approved' ? 'green' : 'amber'}>{h.status}</Badge></td>
                   <td className="px-4 py-3"><div className="flex items-center gap-1">
-                    <button onClick={() => onView(h)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-blue-50 hover:text-[var(--blue)]" title="View"><Eye className="w-3.5 h-3.5" /></button>
-                    <button onClick={() => onEdit(h)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-amber-50 hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button>
-                    {h.status === 'pending' && <><button onClick={() => onApprove(h._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-emerald-600" title="Approve"><Check className="w-3.5 h-3.5" /></button><button onClick={() => onReject(h._id, 'Does not meet criteria')} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-amber-50 hover:text-[var(--orange)]" title="Reject"><X className="w-3.5 h-3.5" /></button></>}
-                    <button onClick={() => setConfirm(h._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-red-50 hover:text-red-600" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => onView(h)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]" title="View"><Eye className="w-3.5 h-3.5" /></button>
+                    <button onClick={() => onEdit(h)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--orange-dim)] hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button>
+                    {h.status === 'pending' && <><button onClick={() => onApprove(h._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--accent-dim)] hover:text-[var(--accent)]" title="Approve"><Check className="w-3.5 h-3.5" /></button><button onClick={() => onReject(h._id, 'Does not meet criteria')} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--orange-dim)] hover:text-[var(--orange)]" title="Reject"><X className="w-3.5 h-3.5" /></button></>}
+                    <button onClick={() => setConfirm(h._id)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[rgba(239,68,68,0.1)] hover:text-[var(--red)]" title="Delete"><Trash2 className="w-3.5 h-3.5" /></button>
                   </div></td>
                 </tr>
               ))}
@@ -602,9 +602,9 @@ const PageUsers = ({ users, total, page, limit, onPageChange, onRoleChange, onSt
   return (
     <div>
       <div className="flex items-center gap-3 mb-4 flex-wrap">
-        <div className="relative flex-shrink-0"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search users..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-blue-400 w-56" /></div>
+        <div className="relative flex-shrink-0"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" /><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search users..." className="pl-9 pr-3 py-2 text-sm rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--accent)] w-56" /></div>
         {['all', 'admin', 'dealer', 'user'].map(f => <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${filter === f ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-blue-200' : 'bg-[var(--card)] text-[var(--text2)] border-[var(--border)] hover:bg-[var(--bg3)]'}`}>{f.charAt(0).toUpperCase() + f.slice(1)}</button>)}
-        {selected.size > 0 && <div className="flex items-center gap-2 ml-2"><select value={bulkRole} onChange={e => setBulkRole(e.target.value)} className="px-2 py-1.5 text-xs rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-blue-400"><option value="">Set role…</option>{['user', 'dealer', 'moderator', 'support_agent', 'admin'].map(r => <option key={r} value={r}>{r}</option>)}</select><button disabled={!bulkRole} onClick={() => { selected.forEach(id => onRoleChange(id, bulkRole)); setSelected(new Set()); setBulkRole(''); }} className="px-3 py-1.5 text-xs rounded-lg bg-[var(--accent)] text-black hover:opacity-90 disabled:opacity-40">Apply to {selected.size}</button></div>}
+        {selected.size > 0 && <div className="flex items-center gap-2 ml-2"><select value={bulkRole} onChange={e => setBulkRole(e.target.value)} className="px-2 py-1.5 text-xs rounded-lg border border-[var(--border)] bg-[var(--card)] focus:outline-none focus:border-[var(--accent)]"><option value="">Set role…</option>{['user', 'dealer', 'moderator', 'support_agent', 'admin'].map(r => <option key={r} value={r}>{r}</option>)}</select><button disabled={!bulkRole} onClick={() => { selected.forEach(id => onRoleChange(id, bulkRole)); setSelected(new Set()); setBulkRole(''); }} className="px-3 py-1.5 text-xs rounded-lg bg-[var(--accent)] text-black hover:opacity-90 disabled:opacity-40">Apply to {selected.size}</button></div>}
       </div>
       <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
         <table className="w-full text-sm">
@@ -612,15 +612,15 @@ const PageUsers = ({ users, total, page, limit, onPageChange, onRoleChange, onSt
           <tbody>
             {filtered.map(u => {
               const uid = u.id || u._id; const isActive = u.is_active !== false; return (
-                <tr key={uid} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(uid) ? 'bg-blue-50/30' : ''}`}>
+                <tr key={uid} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(uid) ? 'bg-[var(--accent-dim)]/30' : ''}`}>
                   <td className="px-4 py-3"><button onClick={() => toggle(uid)} className="text-[var(--muted)] hover:text-[var(--text2)]">{selected.has(uid) ? <CheckSquare className="w-4 h-4 text-[var(--blue)]" /> : <Square className="w-4 h-4" />}</button></td>
                   <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-7 h-7 rounded-full bg-[var(--accent-dim)] text-[var(--accent)] flex items-center justify-center text-xs font-semibold flex-shrink-0">{u.name?.slice(0, 2).toUpperCase()}</div><span className="font-medium text-[var(--text)]">{u.name}</span></div></td>
                   <td className="px-4 py-3 text-[var(--text2)]">{u.email}</td>
                   <td className="px-4 py-3"><Badge color={roleColor(u.role)}>{u.role}</Badge></td>
-                  <td className="px-4 py-3"><button onClick={() => onStatusChange(uid, !isActive)} className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full border transition-colors ${isActive ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-emerald-200 hover:bg-emerald-100' : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'}`}>{isActive ? <><ToggleRight className="w-3.5 h-3.5" /> Active</> : <><ToggleLeft className="w-3.5 h-3.5" /> Inactive</>}</button></td>
+                  <td className="px-4 py-3"><button onClick={() => onStatusChange(uid, !isActive)} className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full border transition-colors ${isActive ? 'bg-[var(--accent-dim)] text-[var(--accent)] border-emerald-200 hover:bg-emerald-100' : 'bg-[rgba(239,68,68,0.1)] text-[var(--red)] border-[var(--border)] hover:bg-red-100'}`}>{isActive ? <><ToggleRight className="w-3.5 h-3.5" /> Active</> : <><ToggleLeft className="w-3.5 h-3.5" /> Inactive</>}</button></td>
                   <td className="px-4 py-3 text-[var(--text2)]">{u.listings_count ?? 0}</td>
                   <td className="px-4 py-3 text-[var(--text2)] text-xs">{u.created_at ? new Date(u.created_at).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : '—'}</td>
-                  <td className="px-4 py-3"><div className="flex items-center gap-2"><button onClick={() => onEdit(u)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-amber-50 hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><select value={u.role} onChange={e => onRoleChange(uid, e.target.value)} className="px-2 py-1 text-xs rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] focus:outline-none focus:border-blue-400 cursor-pointer">{['user', 'dealer', 'moderator', 'support_agent', 'admin', 'super_admin'].map(r => <option key={r} value={r}>{r}</option>)}</select></div></td>
+                  <td className="px-4 py-3"><div className="flex items-center gap-2"><button onClick={() => onEdit(u)} className="p-1.5 rounded-lg text-[var(--muted)] hover:bg-[var(--orange-dim)] hover:text-[var(--orange)]" title="Edit"><Edit2 className="w-3.5 h-3.5" /></button><select value={u.role} onChange={e => onRoleChange(uid, e.target.value)} className="px-2 py-1 text-xs rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] focus:outline-none focus:border-[var(--accent)] cursor-pointer">{['user', 'dealer', 'moderator', 'support_agent', 'admin', 'super_admin'].map(r => <option key={r} value={r}>{r}</option>)}</select></div></td>
                 </tr>
               );
             })}
@@ -649,7 +649,7 @@ const PageRoles = () => {
     <div className="grid grid-cols-2 gap-4">
       {roles.map(r => (
         <div key={r.role} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <div className="flex items-center justify-between mb-3"><Badge color={r.color}>{r.role}</Badge><Shield className="w-4 h-4 text-neutral-300" /></div>
+          <div className="flex items-center justify-between mb-3"><Badge color={r.color}>{r.role}</Badge><Shield className="w-4 h-4 text-[var(--muted)]" /></div>
           <ul className="space-y-1.5">{r.perms.map(p => <li key={p} className="flex items-center gap-2 text-xs text-[var(--text2)]"><Check className="w-3 h-3 text-emerald-500 flex-shrink-0" />{p}</li>)}</ul>
         </div>
       ))}
@@ -716,7 +716,7 @@ const PageNotifications = ({ notifications: apiNotifs, onUnreadUpdate }) => {
           const nid = n.id || n._id;
           return (
             <div key={nid} onClick={() => markOne(nid)}
-              className={`flex items-start gap-4 px-5 py-4 border-b border-[var(--border)] last:border-0 cursor-pointer hover:bg-[var(--bg3)] transition-colors ${!n.is_read ? 'bg-blue-50/20' : ''}`}>
+              className={`flex items-start gap-4 px-5 py-4 border-b border-[var(--border)] last:border-0 cursor-pointer hover:bg-[var(--bg3)] transition-colors ${!n.is_read ? 'bg-[var(--accent-dim)]/20' : ''}`}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${typeBg(n.type)}`}>{typeIcon(n.type)}</div>
               <div className="flex-1 min-w-0">
                 <p className={`text-sm ${!n.is_read ? 'font-semibold text-[var(--text)]' : 'font-medium text-[var(--text)]'}`}>{n.title}</p>
@@ -760,7 +760,7 @@ const PageSettings = () => {
           ].map(f => (
             <div key={f.key} className="flex items-center justify-between py-2">
               <div><p className="text-sm font-medium text-[var(--text)]">{f.label}</p><p className="text-xs text-[var(--text2)] mt-0.5">{f.sub}</p></div>
-              <button onClick={() => set(f.key, !settings[f.key])} className={`rounded-full relative transition-colors flex-shrink-0 ${settings[f.key] ? 'bg-[var(--accent)]' : 'bg-neutral-200'}`} style={{ height: '22px', width: '42px' }}>
+              <button onClick={() => set(f.key, !settings[f.key])} className={`rounded-full relative transition-colors flex-shrink-0 ${settings[f.key] ? 'bg-[var(--accent)]' : 'bg-[var(--bg3)]'}`} style={{ height: '22px', width: '42px' }}>
                 <span className="absolute top-0.5 left-0.5 rounded-full bg-[var(--card)] shadow transition-transform" style={{ width: '18px', height: '18px', transform: settings[f.key] ? 'translateX(20px)' : 'translateX(0)' }} />
               </button>
             </div>
@@ -1090,7 +1090,7 @@ const Admin = () => {
             <div className="flex items-center gap-2">
               <div className="relative" ref={searchRef}>
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" />
-                <input placeholder="Search users, cars, hotels…" value={globalQ} onChange={e => handleGlobalSearch(e.target.value)} onFocus={() => globalQ && setShowSearch(true)} className="pl-9 pr-3 py-1.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--bg3)] focus:outline-none focus:border-blue-400 focus:bg-[var(--card)] w-60" />
+                <input placeholder="Search users, cars, hotels…" value={globalQ} onChange={e => handleGlobalSearch(e.target.value)} onFocus={() => globalQ && setShowSearch(true)} className="pl-9 pr-3 py-1.5 text-sm rounded-lg border border-[var(--border)] bg-[var(--bg3)] focus:outline-none focus:border-[var(--accent)] focus:bg-[var(--card)] w-60" />
                 <AnimatePresence>
                   {showSearch && searchResults.length > 0 && (
                     <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }} className="absolute top-full left-0 mt-1 w-72 bg-[var(--card)] border border-[var(--border)] rounded-xl shadow-lg z-50 overflow-hidden">
@@ -1106,7 +1106,7 @@ const Admin = () => {
               </div>
               <button onClick={() => navTo('notifications')} className="p-2 rounded-lg border border-[var(--border)] text-[var(--text2)] hover:bg-[var(--bg3)] relative">
                 <Bell className="w-4 h-4" />
-                {unreadCount > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-black text-xs flex items-center justify-center font-semibold">{unreadCount}</span>}
+                {unreadCount > 0 && <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[rgba(239,68,68,0.1)] text-black text-xs flex items-center justify-center font-semibold">{unreadCount}</span>}
               </button>
               <button onClick={fetchAll} disabled={loading} className="flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border border-[var(--border)] text-[var(--text2)] hover:bg-[var(--bg3)] disabled:opacity-50">
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Refresh

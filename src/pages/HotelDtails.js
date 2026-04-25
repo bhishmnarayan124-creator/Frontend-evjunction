@@ -9,7 +9,7 @@ const IconZap = ({ size = 14 }) => (
   </svg>
 );
 const IconStar = ({ filled }) => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill={filled ? "#f59e0b" : "none"} stroke="#f59e0b" strokeWidth="2">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill={filled ? "var(--yellow)" : "none"} stroke="var(--yellow)" strokeWidth="2">
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>
 );
@@ -121,14 +121,14 @@ const TabOverview = ({ hotel }) => {
           >
             <button
               onClick={() => setMapPopup(false)}
-              className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-white/90 hover:bg-white text-gray-700 rounded-full shadow-md transition-all"
+              className="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center bg-[var(--bg2)] hover:bg-[var(--bg3)] text-[var(--text)] rounded-full shadow-md transition-all"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            <div className="absolute bottom-0 left-0 right-0 z-10 bg-white/95 backdrop-blur-sm px-4 py-3 border-t border-gray-200">
-              <p className="text-sm font-medium text-gray-800 leading-snug">
+            <div className="absolute bottom-0 left-0 right-0 z-10 bg-[var(--bg2)] backdrop-blur-sm px-4 py-3 border-t border-[var(--border)]">
+              <p className="text-sm font-medium text-[var(--text)] leading-snug">
                 {[hotel.address, hotel.city, hotel.state, hotel.pincode].filter(Boolean).join(", ") || `${hotel.city}, ${hotel.state}`}
               </p>
             </div>
@@ -175,7 +175,7 @@ const TabOverview = ({ hotel }) => {
                 >
                   {t === "amenities" ? "Amenities" : "About"}
                   {amenitiesTab === t && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--text)] rounded-t-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--accent)] rounded-t-full" />
                   )}
                 </button>
               ))}
@@ -235,14 +235,14 @@ const TabOverview = ({ hotel }) => {
         <div className="space-y-5">
           <div className="pb-2">
             <div className="flex items-center gap-3 mb-3">
-              <span className="text-white text-[11px] font-bold px-2.5 py-1 rounded-md" style={{ backgroundColor: "#e03131" }}>
+              <span className="text-white text-[11px] font-bold px-2.5 py-1 rounded-md" style={{ backgroundColor: "var(--orange)" }}>
                 {hotelType}
               </span>
               <div className="flex items-center gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <svg key={i} width="17" height="17" viewBox="0 0 24 24"
-                    fill={i < starCount ? "#888" : "none"}
-                    stroke="#888" strokeWidth="2">
+                    fill={i < starCount ? "var(--yellow)" : "none"}
+                    stroke="var(--yellow)" strokeWidth="2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 ))}
@@ -254,7 +254,7 @@ const TabOverview = ({ hotel }) => {
             </h1>
 
             <div className="flex items-center gap-2.5 mb-5">
-              <span className="text-white text-[13px] font-bold px-2 py-1 rounded-lg" style={{ backgroundColor: "#2f9e44" }}>
+              <span className="text-white text-[13px] font-bold px-2 py-1 rounded-lg" style={{ backgroundColor: "var(--accent)" }}>
                 {hotel.rating}
               </span>
               <span className="text-sm font-semibold text-[var(--text)]">
@@ -398,6 +398,9 @@ const ADDONS = [
 ];
 
 const TabRooms = ({ hotel }) => {
+
+  const imgSrc = (path) =>
+    `${process.env.REACT_APP_BACKEND_URL}${path}`;
   const [selected, setSelected] = useState(null);
   const [qty, setQty] = useState(1);
   const [addons, setAddons] = useState([]);
@@ -420,7 +423,7 @@ const TabRooms = ({ hotel }) => {
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-        {rooms.map((room) => {
+        {rooms.map((room, index) => {
           const isActive = selected?.type === room.type;
           return (
             <div
@@ -434,7 +437,11 @@ const TabRooms = ({ hotel }) => {
             >
               <div className="relative w-full overflow-hidden" style={{ height: "170px" }}>
                 <img
-                  src={hotel.room_images?.[room.type]?.[0] || "https://via.placeholder.com/600x400"}
+                  src={
+                    hotel.room_images?.[index]?.[0]
+                      ? imgSrc(hotel.room_images[index][0])
+                      : "https://via.placeholder.com/600x400"
+                  }
                   alt={room.type}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
@@ -699,9 +706,9 @@ const TabPolicies = ({ hotel }) => {
   const policies = [
     {
       title: "Check-in / Check-out",
-      color: "#dbeafe",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2" strokeLinecap="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round">
           <rect x="3" y="4" width="18" height="18" rx="2" />
           <path d="M16 2v4M8 2v4M3 10h18" />
           <circle cx="12" cy="16" r="2" />
@@ -718,9 +725,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Cancellation Policy",
-      color: "#fef9c3",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#854d0e" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <circle cx="12" cy="12" r="10" />
         </svg>
       ),
@@ -731,9 +738,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Refund Policy",
-      color: "#dcfce7",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M12 2v20" />
         </svg>
       ),
@@ -744,9 +751,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Child Policy",
-      color: "#fce7f3",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9d174d" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <circle cx="9" cy="7" r="4" />
         </svg>
       ),
@@ -757,9 +764,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Extra Bed Policy",
-      color: "#dbeafe",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M2 4v16" />
         </svg>
       ),
@@ -771,9 +778,9 @@ const TabPolicies = ({ hotel }) => {
     // ✅ FIXED: ID Proof Required — now shows as rows like Check-in box
     {
       title: "ID Proof Required",
-      color: "#f3e8ff",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b21a8" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <rect x="2" y="7" width="20" height="14" rx="2" />
           <path d="M16 11H8M12 15H8" />
         </svg>
@@ -786,9 +793,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Pet Policy",
-      color: "#fef9c3",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#854d0e" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M12 21s8-4 8-10" />
         </svg>
       ),
@@ -799,9 +806,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Smoking Policy",
-      color: "#fee2e2",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991b1b" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <line x1="2" y1="2" x2="22" y2="22" />
         </svg>
       ),
@@ -812,9 +819,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Visitor Policy",
-      color: "#dbeafe",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e40af" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <circle cx="9" cy="7" r="4" />
         </svg>
       ),
@@ -826,9 +833,9 @@ const TabPolicies = ({ hotel }) => {
     // ✅ FIXED: Payment Policy — now shows as rows
     {
       title: "Payment Policy",
-      color: "#dcfce7",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <rect x="1" y="4" width="22" height="16" rx="2" />
           <path d="M1 10h22" />
         </svg>
@@ -841,9 +848,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Couple Friendly Policy",
-      color: "#fce7f3",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9d174d" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M12 21s8-4.5 8-11" />
         </svg>
       ),
@@ -854,9 +861,9 @@ const TabPolicies = ({ hotel }) => {
 
     {
       title: "Damage Policy",
-      color: "#fee2e2",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991b1b" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M10.29 3.86 1.82 18" />
         </svg>
       ),
@@ -868,9 +875,9 @@ const TabPolicies = ({ hotel }) => {
     // ✅ FIXED: Safety & Security — now shows as rows
     {
       title: "Safety & Security",
-      color: "#dcfce7",
+      color: "var(--bg3)",
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
       ),
@@ -1009,7 +1016,7 @@ export default function HotelDetails() {
               className="w-9 h-9 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-sm border border-white/20 transition-all hover:scale-110 active:scale-95"
               title="Add to Wishlist"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill={wishlisted ? "#ef4444" : "none"} stroke={wishlisted ? "#ef4444" : "white"} strokeWidth="2" strokeLinecap="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={wishlisted ? "var(--red)" : "none"} stroke={wishlisted ? "var(--red)" : "white"} strokeWidth="2" strokeLinecap="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
               </svg>
             </button>
@@ -1104,18 +1111,18 @@ export default function HotelDetails() {
 
       {/* ════════════ LIGHTBOX ════════════ */}
       {lightbox && (
-        <div className="fixed inset-0 z-50 flex flex-col" style={{ width: "100vw", height: "100vh", backgroundColor: "#1e3a5f" }}>
+        <div className="fixed inset-0 z-50 flex flex-col" style={{ width: "100vw", height: "100vh", backgroundColor: "var(--bg)" }}>
           <div className="flex items-center justify-between px-5 py-4 shrink-0">
             <div className="flex flex-col">
-              <span className="text-white font-semibold text-sm leading-tight">{hotel.name}</span>
+              <span className="text-[var(--text)] font-semibold text-sm leading-tight">{hotel.name}</span>
             </div>
-            <button onClick={() => setLightbox(false)} className="w-9 h-9 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20 transition-all">
+            <button onClick={() => setLightbox(false)} className="w-9 h-9 flex items-center justify-center bg-[var(--bg3)] hover:bg-[var(--bg3)]/20 text-white rounded-full border border-white/20 transition-all">
               <IconX />
             </button>
           </div>
           <div className="flex-1 relative flex items-center justify-center overflow-hidden">
             {totalImages > 1 && (
-              <button onClick={lbPrev} className="absolute left-4 z-10 w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/25 text-white rounded-full border border-white/20 transition-all">
+              <button onClick={lbPrev} className="absolute left-4 z-10 w-11 h-11 flex items-center justify-center bg-[var(--bg3)] hover:bg-[var(--bg3)]/25 text-white rounded-full border border-white/20 transition-all">
                 <IconChevronLeft />
               </button>
             )}
@@ -1127,7 +1134,7 @@ export default function HotelDetails() {
               className="object-contain"
             />
             {totalImages > 1 && (
-              <button onClick={lbNext} className="absolute right-4 z-10 w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/25 text-white rounded-full border border-white/20 transition-all">
+              <button onClick={lbNext} className="absolute right-4 z-10 w-11 h-11 flex items-center justify-center bg-[var(--bg3)] hover:bg-[var(--bg3)]/25 text-white rounded-full border border-white/20 transition-all">
                 <IconChevronRight />
               </button>
             )}
@@ -1138,10 +1145,10 @@ export default function HotelDetails() {
               <button
                 key={i}
                 onClick={() => setLbIdx(i)}
-                className={`w-2 h-2 rounded-full border-0 transition-all duration-200 ${i === lbIdx ? "bg-[var(--accent)] scale-125" : "bg-white/30 hover:bg-white/60"}`}
+                className={`w-2 h-2 rounded-full border-0 transition-all duration-200 ${i === lbIdx ? "bg-[var(--accent)] scale-125" : "bg-[var(--border)] hover:bg-[var(--bg3)]/60"}`}
               />
             ))}
-            <span className="absolute right-5 bottom-1/2 translate-y-1/2 text-white/60 text-xs font-medium select-none">
+            <span className="absolute right-5 bottom-1/2 translate-y-1/2 text-[var(--text2)] text-xs font-medium select-none">
               {lbIdx + 1} / {totalImages}
             </span>
           </div>
