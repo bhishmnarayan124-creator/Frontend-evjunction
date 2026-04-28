@@ -16,7 +16,7 @@ const fmtPrice = (p) => {
     return `₹${(p / 1000).toFixed(0)}K`;
 };
 
-const BACKEND = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001';
+
 
 
 
@@ -117,13 +117,17 @@ const CarCard = ({ item, index, onRemove, onView }) => (
         {/* Image */}
         <div className="relative h-40 bg-[var(--bg3)] flex items-center justify-center overflow-hidden">
             {item.images?.[0]
-                ? <img src={`${BACKEND}${item.images[0]}`} alt={item.name} className="w-full h-full object-cover" />
+                ? <img
+                    src={item.images?.[0]}
+                    alt={`${item.brand} ${item.model}`}
+                    className="w-full h-full object-cover"
+                />
                 : <Car className="w-14 h-14 text-[var(--text3)]" />}
             <span className="absolute top-2.5 left-2.5 bg-[var(--blue-dim)] text-[var(--blue)] text-xs font-medium px-2.5 py-1 rounded-full border border-[var(--border)]">
                 EV Car
             </span>
             <WishlistHeart
-                type="hotel"
+                type="car"
                 id={item._id}
                 className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100"
             />
@@ -131,8 +135,8 @@ const CarCard = ({ item, index, onRemove, onView }) => (
 
         {/* Body */}
         <div className="p-4">
-            <h3 className="font-semibold text-[var(--text)] text-sm leading-tight truncate">{item.name}</h3>
-            <p className="text-xs text-[var(--text2)] mt-0.5 mb-3">{item.sub}</p>
+            <h3 className="font-semibold text-[var(--text)] text-sm leading-tight truncate">{item.brand} {item.model}</h3>
+            <p className="text-xs text-[var(--text2)] mt-0.5 mb-3">{item.city}</p>
 
             {/* Price */}
             <div className="text-base font-bold text-[var(--text)] mb-3">
@@ -142,9 +146,9 @@ const CarCard = ({ item, index, onRemove, onView }) => (
 
             {/* Tags */}
             <div className="flex items-center gap-1.5 mb-4 flex-wrap">
-                {item.range && (
+                {item.range_km && (
                     <span className="flex items-center gap-1 text-xs bg-[var(--accent-dim)] text-[var(--accent)] border border-[var(--border)] px-2 py-0.5 rounded-full">
-                        <Zap className="w-3 h-3" /> {item.range} km
+                        <Zap className="w-3 h-3" /> {item.range_km} km
                     </span>
                 )}
                 {item.charger_type && (
@@ -184,13 +188,17 @@ const HotelCard = ({ item, index, onRemove, onView }) => (
         {/* Image */}
         <div className="relative h-40 bg-[var(--bg3)] flex items-center justify-center overflow-hidden">
             {item.images?.[0]
-                ? <img src={`${BACKEND}${item.images[0]}`} alt={item.name} className="w-full h-full object-cover" />
+                ? <img
+                    src={item.images?.[0]}
+                    alt={`Hotel ${item.name}`}
+                    className="w-full h-full object-cover"
+                />
                 : <Building2 className="w-14 h-14 text-[var(--text3)]" />}
             <span className="absolute top-2.5 left-2.5 bg-[var(--purple-dim)] text-[var(--purple)] text-xs font-medium px-2.5 py-1 rounded-full border border-[var(--border)]">
                 Hotel
             </span>
             <WishlistHeart
-                type="car"
+                type="hotel"
                 id={item._id}
                 className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100"
             />
@@ -199,7 +207,7 @@ const HotelCard = ({ item, index, onRemove, onView }) => (
         {/* Body */}
         <div className="p-4">
             <h3 className="font-semibold text-[var(--text)] text-sm leading-tight truncate">{item.name}</h3>
-            <p className="text-xs text-[var(--text2)] mt-0.5 mb-3">{item.sub}</p>
+            <p className="text-xs text-[var(--text2)] mt-0.5 mb-3">{item.city}</p>
 
             {/* ✅ Total Rooms — price ki jagah */}
             <div className="flex items-center gap-2 mb-3">
