@@ -73,10 +73,7 @@ const CardImage = ({
   wishlistedIds,
 }) => {
   const [imgError, setImgError] = useState(false);
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
-  const src = images?.[0]
-    ? (images[0].startsWith('http') ? images[0] : `${backendUrl}${images[0]}`)
-    : null;
+  const src = images?.[0] || null;
 
   return (
     <div className="relative h-48 overflow-hidden bg-[var(--border)]">

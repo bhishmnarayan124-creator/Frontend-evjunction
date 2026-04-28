@@ -72,7 +72,7 @@ export const ListingCard = ({ car, idx, onDeleteListing, formatPrice }) => {
           {car.images?.[0] ? (
             <>
               <img
-                src={`${process.env.REACT_APP_BACKEND_URL}${car.images[0]}`}
+                src={car.images[0]}
                 alt={`${car.brand} ${car.model}`}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
@@ -82,7 +82,7 @@ export const ListingCard = ({ car, idx, onDeleteListing, formatPrice }) => {
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--bg3)] to-[var(--bg4)]">
               <img
-                src="/api/placeholder/400/300"
+                src="https://via.placeholder.com/400x300?text=No+Image"
                 alt="Placeholder"
                 className="w-16 h-16 opacity-40"
               />
@@ -120,12 +120,12 @@ export const ListingCard = ({ car, idx, onDeleteListing, formatPrice }) => {
 
                 <span className="flex items-center gap-1">
                   <Battery className="w-3 h-3" />
-                  {car.battery_capacity || "N/A"} kWh
+                  {car.battery_capacity_kwh || "N/A"} kWh
                 </span>
 
                 <span className="flex items-center gap-1">
                   <Gauge className="w-3 h-3" />
-                  {car.mileage || "N/A"} km
+                  {car.mileage_km || "N/A"} km
                 </span>
               </div>
             </div>

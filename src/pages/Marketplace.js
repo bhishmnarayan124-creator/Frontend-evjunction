@@ -29,8 +29,7 @@ const Marketplace = () => {
   const [showFilters, setShowFilters] = useState(false);
   const location = useLocation();
 
-  // Filters
-  const params = new URLSearchParams(location.search);
+
 
   const [searchBrand, setSearchBrand] = useState(params.get("brand") || '');
   const [filterCity, setFilterCity] = useState(params.get("city") || '');
@@ -72,6 +71,21 @@ const Marketplace = () => {
         if (minRange > 0)
           params.min_range = minRange;
 
+        // brand search input filter
+        if (searchBrand)
+          params.brand = searchBrand;
+
+        // city input filter
+        if (filterCity)
+          params.city = filterCity;
+
+        // price slider filter
+        if (priceRange[0] > 0)
+          params.minPrice = priceRange[0];
+
+        if (priceRange[1] < 10000000)
+          params.maxPrice = priceRange[1];
+
         const response = await evCarsAPI.getAll(params);
 
         setCars(response.data.cars || []);
@@ -91,7 +105,14 @@ const Marketplace = () => {
 
     fetchCars();
 
-  }, [location.search, filterCondition, minRange]);
+  }, [
+    location.search,
+    filterCondition,
+    minRange,
+    priceRange,
+    searchBrand,
+    filterCity
+  ]);
   // Fetch brands
   useEffect(() => {
     const fetchBrands = async () => {
@@ -107,22 +128,22 @@ const Marketplace = () => {
 
 
   useEffect(() => {
-  const loadWishlist = async () => {
-    if (!isAuthenticated) return;
+    const loadWishlist = async () => {
+      if (!isAuthenticated) return;
 
-    try {
-      const res = await wishlistAPI.getWishlist();
+      try {
+        const res = await wishlistAPI.getWishlist();
 
-      setWishlistCarIds(
-        res.data.cars?.map(c => c._id) || []
-      );
-    } catch (err) {
-      console.error("Wishlist load failed", err);
-    }
-  };
+        setWishlistCarIds(
+          res.data.cars?.map(c => c._id) || []
+        );
+      } catch (err) {
+        console.error("Wishlist load failed", err);
+      }
+    };
 
-  loadWishlist();
-}, [isAuthenticated]);
+    loadWishlist();
+  }, [isAuthenticated]);
   const formatPrice = (price) => {
     if (price >= 10000000) return `${(price / 10000000).toFixed(1)} Cr`;
     if (price >= 100000) return `${(price / 100000).toFixed(1)} L`;
@@ -258,6 +279,8 @@ const Marketplace = () => {
                   setFilterCondition('all');
                   setPriceRange([0, 10000000]);
                   setMinRange(0);
+
+                  window.history.replaceState({}, "", "/marketplace");
                 }}
                 data-testid="clear-filters-btn"
               >
@@ -315,7 +338,7 @@ const Marketplace = () => {
                       <div className="relative aspect-[4/3] bg-ev-bg2 overflow-hidden">
                         {car.images?.[0] ? (
                           <img
-                            src={`${process.env.REACT_APP_BACKEND_URL}${car.images[0]}`}
+                            src={car.images[0]}
                             alt={`${car.brand} ${car.model}`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />

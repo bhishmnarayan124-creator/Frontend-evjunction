@@ -399,8 +399,7 @@ const ADDONS = [
 
 const TabRooms = ({ hotel }) => {
 
-  const imgSrc = (path) =>
-    `${process.env.REACT_APP_BACKEND_URL}${path}`;
+  const imgSrc = (path) => path;
   const [selected, setSelected] = useState(null);
   const [qty, setQty] = useState(1);
   const [addons, setAddons] = useState([]);
@@ -970,7 +969,7 @@ export default function HotelDetails() {
   const visibleThumbs = images.slice(0, MAX_VISIBLE_THUMBS);
   const hiddenCount = totalImages - MAX_VISIBLE_THUMBS;
 
-  const imgSrc = (path) => `${process.env.REACT_APP_BACKEND_URL}${path}`;
+  const imgSrc = (path) => path;
   const lbPrev = () => setLbIdx((p) => (p - 1 + totalImages) % totalImages);
   const lbNext = () => setLbIdx((p) => (p + 1) % totalImages);
 

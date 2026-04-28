@@ -3,6 +3,7 @@ import HotelsListLayout from '../components/HotelsListLayout';
 import { hotelsAPI, wishlistAPI } from "@/lib/api";
 import { useLocation } from "react-router-dom";
 import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 const Hotels = () => {
   // State for hotels data
@@ -11,6 +12,7 @@ const Hotels = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   // State for filters
   const [filters, setFilters] = useState({
@@ -42,7 +44,7 @@ const Hotels = () => {
           id: hotel._id,
           _id: hotel._id,
           name: hotel.name || 'Hotel',
-          images: hotel.images || [],
+          images: Array.isArray(hotel.images) ? hotel.images : [],
           city: hotel.city || '',
           state: hotel.state || '',
           address: hotel.address || '',
@@ -77,23 +79,23 @@ const Hotels = () => {
   }, []);
 
   useEffect(() => {
-  const loadWishlist = async () => {
-    if (!isAuthenticated) return;
+    const loadWishlist = async () => {
+      if (!isAuthenticated) return;
 
-    try {
-      const res = await wishlistAPI.getWishlist();
+      try {
+        const res = await wishlistAPI.getWishlist();
 
-      setWishlistedIds(
-        res.data.hotels?.map(h => h._id) || []
-      );
+        setWishlistedIds(
+          res.data.hotels?.map(h => h._id) || []
+        );
 
-    } catch (err) {
-      console.error("Wishlist load failed", err);
-    }
-  };
+      } catch (err) {
+        console.error("Wishlist load failed", err);
+      }
+    };
 
-  loadWishlist();
-}, [isAuthenticated]);
+    loadWishlist();
+  }, [isAuthenticated]);
 
 
   useEffect(() => {
@@ -112,10 +114,10 @@ const Hotels = () => {
 
   // Helper function to get rating text
   const getRatingText = (rating) => {
-    if (rating >= 8.5) return 'Excellent';
-    if (rating >= 7) return 'Very Good';
-    if (rating >= 6) return 'Good';
-    if (rating >= 5) return 'Average';
+    if (rating >= 4.5) return 'Excellent';
+    if (rating >= 4) return 'Very Good';
+    if (rating >= 3.5) return 'Good';
+    if (rating >= 3) return 'Average';
     return 'Poor';
   };
 
@@ -187,16 +189,16 @@ const Hotels = () => {
 
   // Wishlist handlers
   const handleWishlist = (hotelId, added) => {
-  setWishlistedIds(prev =>
-    added
-      ? [...prev, hotelId]
-      : prev.filter(id => id !== hotelId)
-  );
-};
+    setWishlistedIds(prev =>
+      added
+        ? [...prev, hotelId]
+        : prev.filter(id => id !== hotelId)
+    );
+  };
 
   // Handle hotel click navigation
   const handleHotelClick = (hotel) => {
-    window.location.href = `/hotels/${hotel.id}`;
+    navigate(`/hotels/${hotel.id}`);
   };
 
   // Filter hotels based on all filters

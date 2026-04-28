@@ -100,10 +100,10 @@ const S = {
       score >= 90
         ? 'var(--ev-accent, #00e5a0)'
         : score >= 75
-        ? '#3b9eff'
-        : score >= 60
-        ? '#f97316'
-        : '#ef4444',
+          ? '#3b9eff'
+          : score >= 60
+            ? '#f97316'
+            : '#ef4444',
     transition: 'width 0.8s ease',
   }),
 };
@@ -274,7 +274,7 @@ const SellEV = () => {
 
     const submitData = {
       ...formData,
-      battery_health_score: batteryHealth?.health_score ?? undefined,
+      battery_health_score: batteryHealth?.health_score || null,
       battery_capacity_kwh: num(formData.battery_capacity_kwh),
       range_km: num(formData.range_km),
       current_range_km: num(formData.current_range_km),
@@ -316,7 +316,7 @@ const SellEV = () => {
       });
       await evCarsAPI.create(fd);
       toast.success('Your EV has been listed successfully!');
-      navigate('/dashboard');
+      navigate('/dashboard?tab=listings');
     } catch (error) {
       console.error('Error creating listing:', error);
       toast.error(error.response?.data?.message || 'Failed to create listing');
@@ -334,14 +334,14 @@ const SellEV = () => {
 
   const healthColor =
     batteryHealth?.health_score >= 90 ? 'text-ev-accent' :
-    batteryHealth?.health_score >= 75 ? 'text-ev-blue' :
-    batteryHealth?.health_score >= 60 ? 'text-ev-orange' : 'text-ev-danger';
+      batteryHealth?.health_score >= 75 ? 'text-ev-blue' :
+        batteryHealth?.health_score >= 60 ? 'text-ev-orange' : 'text-ev-danger';
 
   const healthBadgeClass =
     batteryHealth?.health_status === 'excellent' ? 'bg-ev-accent/20 text-ev-accent' :
-    batteryHealth?.health_status === 'good'      ? 'bg-ev-blue/20 text-ev-blue' :
-    batteryHealth?.health_status === 'fair'      ? 'bg-ev-orange/20 text-ev-orange' :
-                                                   'bg-ev-danger/20 text-ev-danger';
+      batteryHealth?.health_status === 'good' ? 'bg-ev-blue/20 text-ev-blue' :
+        batteryHealth?.health_status === 'fair' ? 'bg-ev-orange/20 text-ev-orange' :
+          'bg-ev-danger/20 text-ev-danger';
 
   /* ════════════════════════════════════════════════
      STEP RENDERS
@@ -503,9 +503,9 @@ const SellEV = () => {
             </div>
 
             <div className="flex items-center gap-3 mt-10 p-3 rounded-lg"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',marginTop: '20px'}}>
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', marginTop: '20px' }}>
               <Checkbox id="fast-charging" checked={formData.fast_charging_supported}
-                onCheckedChange={v => handleChange('fast_charging_supported', v)}
+                onCheckedChange={v => handleChange('fast_charging_supported', !!v)}
                 className="border-white/20 data-[state=checked]:bg-ev-accent"
                 data-testid="checkbox-fast-charging" />
               <label htmlFor="fast-charging" className="text-sm text-ev-text2 font-clash cursor-pointer ">
@@ -551,7 +551,7 @@ const SellEV = () => {
                   <Checkbox
                     id={`feat-${feature}`}
                     checked={formData.features.includes(feature)}
-                    onCheckedChange={() => {}}
+                    onCheckedChange={() => { }}
                     className="border-white/20 data-[state=checked]:bg-ev-accent pointer-events-none"
                   />
                   <label htmlFor={`feat-${feature}`} className="text-xs text-ev-text2 font-clash cursor-pointer select-none">
@@ -712,7 +712,10 @@ const SellEV = () => {
                 type="file"
                 multiple
                 accept="image/*"
-                onChange={e => handleChange('images', Array.from(e.target.files))}
+                onChange={e => {
+                  const files = Array.from(e.target.files).slice(0, 5);
+                  handleChange('images', files);
+                }}
                 className="bg-ev-bg border border-white/10 p-2 rounded-lg w-full text-ev-text2 font-clash text-sm
                            file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0
                            file:text-sm file:font-clash file:bg-ev-accent/20 file:text-ev-accent
@@ -793,13 +796,12 @@ const SellEV = () => {
             <div key={s.num} className="flex items-center">
               <button
                 onClick={() => setStep(s.num)}
-                className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all font-clash text-sm font-semibold ${
-                  step === s.num
+                className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all font-clash text-sm font-semibold ${step === s.num
                     ? 'bg-ev-accent text-ev-bg shadow-lg shadow-ev-accent/20'
                     : step > s.num
-                    ? 'bg-ev-accent/15 text-ev-accent border border-ev-accent/30'
-                    : 'bg-ev-card text-ev-text3 border border-white/8'
-                }`}
+                      ? 'bg-ev-accent/15 text-ev-accent border border-ev-accent/30'
+                      : 'bg-ev-card text-ev-text3 border border-white/8'
+                  }`}
               >
                 {step > s.num
                   ? <Check className="w-4 h-4" />

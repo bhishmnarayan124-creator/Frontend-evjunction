@@ -396,7 +396,7 @@ const PagePending = ({ cars, onApprove, onReject, onDelete, onView }) => {
                 <div className="w-24 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-[var(--bg3)] flex items-center justify-center">
                   {car.images?.[0] ? (
                     <img
-                      src={`${process.env.REACT_APP_BACKEND_URL || "http://localhost:5001"}${car.images[0]}`}
+                     src={car.images[0]}
                       alt="car"
                       className="w-full h-full object-cover"
                     />
@@ -453,7 +453,7 @@ const PageCarsList = ({ cars, total, page, limit, onPageChange, onDelete, onEdit
             <tbody>
               {filtered.map(c => (
                 <tr key={c.id || c._id} className="border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0">
-                  <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-10 h-8 rounded-lg bg-[var(--bg3)] overflow-hidden flex-shrink-0 flex items-center justify-center">{c.images?.[0] ? (<img src={`${process.env.REACT_APP_BACKEND_URL}${c.images[0]}`} alt="" className="w-full h-full object-cover" />) : (<Car className="w-4 h-4 text-[var(--muted)]" />)}</div><div><div className="font-medium text-[var(--text)]">{c.brand} {c.model}</div><div className="text-xs text-[var(--muted)]">{c.year}</div></div></div></td>
+                  <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-10 h-8 rounded-lg bg-[var(--bg3)] overflow-hidden flex-shrink-0 flex items-center justify-center">{c.images?.[0] ? (<img src={c.images[0]} alt="" className="w-full h-full object-cover" />) : (<Car className="w-4 h-4 text-[var(--muted)]" />)}</div><div><div className="font-medium text-[var(--text)]">{c.brand} {c.model}</div><div className="text-xs text-[var(--muted)]">{c.year}</div></div></div></td>
                   <td className="px-4 py-3 text-[var(--text)] font-medium">{fmt(c.price)}</td>
                   <td className="px-4 py-3 text-[var(--text2)]">{c.city}</td>
                   <td className="px-4 py-3 text-[var(--text2)]">{c.seller_name}</td>
@@ -566,7 +566,7 @@ const PageHotelsList = ({ hotels, total, page, limit, onPageChange, onApprove, o
               {filtered.map(h => (
                 <tr key={h._id} className={`border-b border-[var(--border)] hover:bg-[var(--bg3)]/50 last:border-0 ${selected.has(h._id) ? 'bg-[var(--accent-dim)]/30' : ''}`}>
                   <td className="px-4 py-3"><button onClick={() => toggle(h._id)} className="text-[var(--muted)] hover:text-[var(--text2)]">{selected.has(h._id) ? <CheckSquare className="w-4 h-4 text-[var(--blue)]" /> : <Square className="w-4 h-4" />}</button></td>
-                  <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-lg bg-[var(--bg3)] flex items-center justify-center flex-shrink-0 overflow-hidden">{h.images?.[0] ? <img src={`${process.env.REACT_APP_BACKEND_URL || ''}${h.images[0]}`} alt="" className="w-full h-full object-cover" /> : <Building2 className="w-4 h-4 text-[var(--muted)]" />}</div><span className="font-medium text-[var(--text)]">{h.name}</span></div></td>
+                  <td className="px-4 py-3"><div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-lg bg-[var(--bg3)] flex items-center justify-center flex-shrink-0 overflow-hidden">{h.images?.[0] ? <img src={h.images[0]} alt="" className="w-full h-full object-cover" /> : <Building2 className="w-4 h-4 text-[var(--muted)]" />}</div><span className="font-medium text-[var(--text)]">{h.name}</span></div></td>
                   <td className="px-4 py-3 text-[var(--text2)]">{h.city}</td>
                   <td className="px-4 py-3 text-[var(--text2)]">₹{h.price_per_night?.toLocaleString('en-IN')}</td>
                   <td className="px-4 py-3 text-[var(--text2)]">{h.chargers_available}</td>

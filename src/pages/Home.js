@@ -629,7 +629,7 @@ const Home = () => {
               <div className="ev-img-wrap">
                 {car.images?.[0] ? (
                   <img
-                    src={`${process.env.REACT_APP_BACKEND_URL}${car.images[0]}`}
+                    src={car.images[0]}
                     alt={car.model}
                     className="w-full h-full object-cover"
                   />

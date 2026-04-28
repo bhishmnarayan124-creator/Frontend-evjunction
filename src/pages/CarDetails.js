@@ -73,7 +73,7 @@ const CarDetails = () => {
     fetchCar();
   }, [id]);
 
-  const imageURL = (img) => `${process.env.REACT_APP_BACKEND_URL}${img}`;
+  const imageURL = (img) => img;
 
   const switchImage = (index) => {
     if (index === activeImage) return;
@@ -89,20 +89,20 @@ const CarDetails = () => {
   const batteryPct = car.battery_health_score ?? 0;
   const hasImages = car.images?.length > 0;
   const hasMultiple = car.images?.length > 1;
-  const currentImageURL = hasImages ? imageURL(car.images[activeImage]) : null;
+  const currentImageURL = hasImages ? car.images[activeImage] : null;
 
   const batteryLabel = car.battery_health_status
     ? car.battery_health_status.replace("_", " ").replace(/\b\w/g, (c) => c.toUpperCase())
     : "Unknown";
 
   const batteryColor =
-  car.battery_health_status === "excellent"
-    ? "var(--accent)"
-    : car.battery_health_status === "good"
-    ? "var(--blue)"
-    : car.battery_health_status === "fair"
-    ? "var(--yellow)"
-    : "var(--red)";
+    car.battery_health_status === "excellent"
+      ? "var(--accent)"
+      : car.battery_health_status === "good"
+        ? "var(--blue)"
+        : car.battery_health_status === "fair"
+          ? "var(--yellow)"
+          : "var(--red)";
 
   /* mock extras — swap with real data as available */
   const rating = car.rating ?? 4.9;
@@ -177,11 +177,10 @@ const CarDetails = () => {
               <div className="flex flex-wrap gap-2 mb-3">
                 {tags.map((tag, i) => (
                   <span key={i}
-                    className={`text-[11px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full border ${
-                      i === 0 ? "bg-[var(--accent-dim)] text-[var(--accent)] border-[var(--accent)]"
-                      : i === 1 ? "bg-[var(--purple-dim)] text-[var(--purple)] border-[var(--purple)]"
-                      : "bg-[rgba(251,146,60,0.1)] text-[var(--orange)] border-[var(--orange)]"
-                    }`}
+                    className={`text-[11px] font-semibold tracking-widest uppercase px-3 py-1 rounded-full border ${i === 0 ? "bg-[var(--accent-dim)] text-[var(--accent)] border-[var(--accent)]"
+                        : i === 1 ? "bg-[var(--purple-dim)] text-[var(--purple)] border-[var(--purple)]"
+                          : "bg-[rgba(251,146,60,0.1)] text-[var(--orange)] border-[var(--orange)]"
+                      }`}
                   >{tag}</span>
                 ))}
               </div>
@@ -215,9 +214,8 @@ const CarDetails = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setWishlisted(!wishlisted)}
-                className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${
-                  wishlisted ? "bg-[rgba(239,68,68,0.1)] border-[var(--red)] text-[var(--red)]" : "bg-[var(--card2)] border-[var(--border)] text-[var(--text3)] hover:text-red-400"
-                }`}
+                className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${wishlisted ? "bg-[rgba(239,68,68,0.1)] border-[var(--red)] text-[var(--red)]" : "bg-[var(--card2)] border-[var(--border)] text-[var(--text3)] hover:text-red-400"
+                  }`}
               >
                 <Heart size={16} fill={wishlisted ? "currentColor" : "none"} />
               </button>
@@ -280,14 +278,13 @@ const CarDetails = () => {
                   {car.images.map((img, i) => (
                     <img
                       key={i}
-                      src={imageURL(img)}
+                      src={img}
                       alt={`view ${i + 1}`}
                       onClick={() => switchImage(i)}
-                      className={`w-20 h-14 object-cover rounded-lg cursor-pointer flex-shrink-0 transition-all ${
-                        i === activeImage
+                      className={`w-20 h-14 object-cover rounded-lg cursor-pointer flex-shrink-0 transition-all ${i === activeImage
                           ? "ring-2 ring-[var(--accent)] ring-offset-1 opacity-100"
                           : "opacity-50 hover:opacity-80"
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
@@ -323,11 +320,10 @@ const CarDetails = () => {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
-                      activeTab === tab
+                    className={`px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${activeTab === tab
                         ? "border-[var(--accent)] text-[var(--accent)]"
                         : "border-transparent text-[var(--text2)] hover:text-gray-800"
-                    }`}
+                      }`}
                   >
                     {tab}
                   </button>
@@ -395,53 +391,53 @@ const CarDetails = () => {
                     </div>
 
                     <SpecGroup title="Overview" rows={[
-                      ["Year",            car.year],
-                      ["Make",            car.brand],
-                      ["Model",           car.model],
-                      ["Trim",            car.trim ?? "Standard"],
-                      ["Body Style",      car.body_style ?? "—"],
-                      ["Doors",           car.doors ?? "—"],
-                      ["Seating Capacity",car.seating_capacity ?? "—"],
-                      ["VIN",             car.vin ?? "—"],
-                      ["Stock Number",    car.stock_number ?? "—"],
+                      ["Year", car.year],
+                      ["Make", car.brand],
+                      ["Model", car.model],
+                      ["Trim", car.trim ?? "Standard"],
+                      ["Body Style", car.body_style ?? "—"],
+                      ["Doors", car.doors ?? "—"],
+                      ["Seating Capacity", car.seating_capacity ?? "—"],
+                      ["VIN", car.vin ?? "—"],
+                      ["Stock Number", car.stock_number ?? "—"],
                     ]} />
 
                     <SpecGroup title="Performance" rows={[
-                      ["Drivetrain",   drivetrain],
-                      ["Horsepower",   horsepower ? `${horsepower} hp` : "—"],
-                      ["Torque",       car.torque ?? "—"],
-                      ["0–60 mph",     zeroSixty ? `${zeroSixty} seconds` : "—"],
+                      ["Drivetrain", drivetrain],
+                      ["Horsepower", horsepower ? `${horsepower} hp` : "—"],
+                      ["Torque", car.torque ?? "—"],
+                      ["0–60 mph", zeroSixty ? `${zeroSixty} seconds` : "—"],
                       ["Quarter Mile", car.quarter_mile ?? "—"],
-                      ["Top Speed",    topSpeed ? `${topSpeed} mph` : "—"],
+                      ["Top Speed", topSpeed ? `${topSpeed} mph` : "—"],
                     ]} />
 
                     <SpecGroup title="Battery & Charging" rows={[
-                      ["Battery Capacity",               batteryCapacity ? `${batteryCapacity} kWh (usable)` : "—"],
-                      ["EPA Estimated Range",             car.range_km ? `${car.range_km} km` : "—"],
-                      ["Battery Health",                  `${batteryPct}% — ${batteryLabel}`],
-                      ["Max DC Charge Rate",              maxChargeRate ? `${maxChargeRate} kW` : "—"],
-                      ["Max AC Charge Rate",              car.max_ac_charge_rate ?? "—"],
-                      ["Charge Port",                    car.charge_port ?? "—"],
+                      ["Battery Capacity", batteryCapacity ? `${batteryCapacity} kWh (usable)` : "—"],
+                      ["EPA Estimated Range", car.range_km ? `${car.range_km} km` : "—"],
+                      ["Battery Health", `${batteryPct}% — ${batteryLabel}`],
+                      ["Max DC Charge Rate", maxChargeRate ? `${maxChargeRate} kW` : "—"],
+                      ["Max AC Charge Rate", car.max_ac_charge_rate ?? "—"],
+                      ["Charge Port", car.charge_port ?? "—"],
                       ["Est. Supercharge Time (10–80%)", car.charge_time ?? "—"],
                     ]} />
 
                     <SpecGroup title="Exterior" rows={[
                       ["Exterior Color", exterior ?? "—"],
-                      ["Wheels",         car.wheels ?? "—"],
-                      ["Roof",           car.roof ?? "—"],
-                      ["Length",         car.length ?? "—"],
-                      ["Width",          car.width ?? "—"],
-                      ["Height",         car.height ?? "—"],
-                      ["Curb Weight",    car.curb_weight ?? "—"],
+                      ["Wheels", car.wheels ?? "—"],
+                      ["Roof", car.roof ?? "—"],
+                      ["Length", car.length ?? "—"],
+                      ["Width", car.width ?? "—"],
+                      ["Height", car.height ?? "—"],
+                      ["Curb Weight", car.curb_weight ?? "—"],
                     ]} />
 
                     <SpecGroup title="Interior" rows={[
-                      ["Interior Color",      interior ?? "—"],
-                      ["Upholstery",          car.upholstery ?? "—"],
+                      ["Interior Color", interior ?? "—"],
+                      ["Upholstery", car.upholstery ?? "—"],
                       ["Infotainment Screen", car.infotainment ?? "—"],
-                      ["Rear Screen",         car.rear_screen ?? "—"],
-                      ["Steering",            car.steering ?? "—"],
-                      ["Audio",               car.audio ?? "—"],
+                      ["Rear Screen", car.rear_screen ?? "—"],
+                      ["Steering", car.steering ?? "—"],
+                      ["Audio", car.audio ?? "—"],
                     ]} />
                   </div>
                 )}
@@ -502,12 +498,12 @@ const CarDetails = () => {
               <p className="text-[11px] font-bold tracking-widest uppercase text-[var(--text2)] mb-4">Vehicle Overview</p>
               <div className="space-y-0">
                 {[
-                  { icon: <Calendar size={14} />, label: "Year",      value: car.year },
-                  { icon: <Gauge size={14} />,    label: "Mileage",   value: car.mileage_km ? `${car.mileage_km.toLocaleString()} km` : "—" },
-                  { icon: <Zap size={14} />,      label: "Drivetrain",value: drivetrain },
-                  { icon: <MapPin size={14} />,   label: "Range",     value: car.range_km ? `${car.range_km} km` : "—" },
-                  { icon: <MapPin size={14} />,   label: "Location",  value: car.city },
-                  { icon: <Shield size={14} />,   label: "Title",     value: titleStatus, green: titleStatus === "clean" },
+                  { icon: <Calendar size={14} />, label: "Year", value: car.year },
+                  { icon: <Gauge size={14} />, label: "Mileage", value: car.mileage_km ? `${car.mileage_km.toLocaleString()} km` : "—" },
+                  { icon: <Zap size={14} />, label: "Drivetrain", value: drivetrain },
+                  { icon: <MapPin size={14} />, label: "Range", value: car.range_km ? `${car.range_km} km` : "—" },
+                  { icon: <MapPin size={14} />, label: "Location", value: car.city },
+                  { icon: <Shield size={14} />, label: "Title", value: titleStatus, green: titleStatus === "clean" },
                   owners && { icon: <User size={14} />, label: "Owners", value: `${owners} (${car.seller_type ?? "user"})` },
                 ].filter(Boolean).map(({ icon, label, value, green }) => (
                   <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
@@ -561,9 +557,9 @@ const CarDetails = () => {
               <div className="grid grid-cols-2 gap-2">
                 {[
                   { value: sellerCarsListed, label: "Cars Listed" },
-                  { value: sellerRating,     label: "Seller Rating" },
+                  { value: sellerRating, label: "Seller Rating" },
                   { value: `${responseRate}%`, label: "Response Rate" },
-                  { value: avgResponse,      label: "Avg. Response" },
+                  { value: avgResponse, label: "Avg. Response" },
                 ].map(({ value, label }) => (
                   <div key={label} className="bg-[var(--card2)] rounded-xl p-3 text-center border border-gray-100">
                     <p className="text-lg font-bold text-[var(--text)]">{value}</p>
@@ -644,17 +640,17 @@ const SpecGroup = ({ title, rows }) => (
 /* ── FINANCING CALCULATOR ── */
 const FinancingCalculator = ({ carPrice }) => {
   const [vehiclePrice, setVehiclePrice] = useState(carPrice);
-  const [downPayment, setDownPayment]   = useState(Math.round(carPrice * 0.1));
-  const [loanTerm, setLoanTerm]         = useState(60);
-  const [apr, setApr]                   = useState(5.9);
+  const [downPayment, setDownPayment] = useState(Math.round(carPrice * 0.1));
+  const [loanTerm, setLoanTerm] = useState(60);
+  const [apr, setApr] = useState(5.9);
 
-  const loanAmount      = Math.max(0, vehiclePrice - downPayment);
-  const monthlyRate     = apr / 100 / 12;
-  const monthlyPayment  =
+  const loanAmount = Math.max(0, vehiclePrice - downPayment);
+  const monthlyRate = apr / 100 / 12;
+  const monthlyPayment =
     monthlyRate === 0
       ? loanAmount / loanTerm
       : (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, loanTerm)) /
-        (Math.pow(1 + monthlyRate, loanTerm) - 1);
+      (Math.pow(1 + monthlyRate, loanTerm) - 1);
 
   const fmt = (n) =>
     isNaN(n) || !isFinite(n)
@@ -662,7 +658,7 @@ const FinancingCalculator = ({ carPrice }) => {
       : "₹ " + Math.round(n).toLocaleString("en-IN");
 
   const TERMS = [
-    { label: "12 months (1 year)",  value: 12 },
+    { label: "12 months (1 year)", value: 12 },
     { label: "24 months (2 years)", value: 24 },
     { label: "36 months (3 years)", value: 36 },
     { label: "48 months (4 years)", value: 48 },

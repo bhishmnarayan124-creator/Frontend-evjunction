@@ -73,7 +73,35 @@ const Dashboard = () => {
     try {
       await evCarsAPI.delete(carId);
 
-      setMyListings(myListings.filter((c) => c._id !== carId));
+      const updatedListings = myListings.filter(
+        (c) => c._id !== carId
+      );
+
+      setMyListings(updatedListings);
+
+      // update stats again
+      const totalValue = updatedListings.reduce(
+        (sum, c) => sum + (c.price || 0),
+        0
+      );
+
+      const averagePrice = updatedListings.length
+        ? totalValue / updatedListings.length
+        : 0;
+
+      const mostViewed = updatedListings.reduce(
+        (max, c) =>
+          (c.views || 0) > (max?.views || 0)
+            ? c
+            : max,
+        null
+      );
+
+      setStats({
+        totalValue,
+        averagePrice,
+        mostViewed,
+      });
 
       toast.success("Listing deleted successfully");
     } catch (error) {
@@ -82,6 +110,14 @@ const Dashboard = () => {
   };
 
   if (!isAuthenticated) return null;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading dashboard...
+      </div>
+    );
+  }
 
   /* ================= UI ================= */
 
