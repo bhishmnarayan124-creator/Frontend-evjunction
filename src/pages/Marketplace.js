@@ -30,6 +30,7 @@ const Marketplace = () => {
   const location = useLocation();
 
 
+  const params = new URLSearchParams(location.search);
 
   const [searchBrand, setSearchBrand] = useState(params.get("brand") || '');
   const [filterCity, setFilterCity] = useState(params.get("city") || '');
