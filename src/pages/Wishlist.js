@@ -439,7 +439,7 @@ const Wishlist = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
                     className="mt-10 flex gap-3 justify-center">
-                    <button onClick={() => navigate('/cars')}
+                    <button onClick={() => navigate('/marketplace')}
                         className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-full bg-[var(--card)] border border-[var(--border)] text-[var(--text)] hover:bg-[var(--card2)] transition-colors">
                         <Car className="w-4 h-4" /> Browse more cars
                     </button>
