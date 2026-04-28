@@ -339,7 +339,11 @@ const Marketplace = () => {
                       <div className="relative aspect-[4/3] bg-ev-bg2 overflow-hidden">
                         {car.images?.[0] ? (
                           <img
-                            src={car.images[0]}
+                            src={
+                              car.images[0]?.startsWith("http")
+                                ? car.images[0]
+                                : `${process.env.REACT_APP_BACKEND_URL}${car.images[0]}`
+                            }
                             alt={`${car.brand} ${car.model}`}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
