@@ -153,7 +153,7 @@ const Marketplace = () => {
 
   const getBatteryColor = (score) => {
     if (!score) return 'bg-ev-text3';
-    if (score >= 90) return 'bg-ev-accent';
+    if (score >= 90) return 'bg-[var(--accent)]';
     if (score >= 75) return 'bg-ev-blue';
     if (score >= 60) return 'bg-ev-orange';
     return 'bg-ev-danger';
@@ -165,7 +165,7 @@ const Marketplace = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="font-clash text-3xl md:text-4xl font-semibold text-white">
+            <h1 className="font-clash text-3xl md:text-4xl font-semibold text-[var(--text)]">
               EV Marketplace
             </h1>
             <p className="text-ev-text2 mt-1">
@@ -182,12 +182,12 @@ const Marketplace = () => {
 
         <div className="flex gap-6">
           {/* Filters Sidebar */}
-          <aside className={`${showFilters ? 'fixed inset-0 z-50 bg-ev-bg p-6 overflow-y-auto' : 'hidden'
+          <aside className={`${showFilters ? 'fixed inset-0 z-50 bg-[var(--bg)] p-6 overflow-y-auto' : 'hidden'
             } lg:block lg:relative lg:w-72 lg:flex-shrink-0`}>
             <div className="lg:sticky lg:top-24 space-y-6">
               {/* Mobile close button */}
               <div className="flex items-center justify-between lg:hidden mb-4">
-                <h2 className="font-clash text-xl font-medium text-white">Filters</h2>
+                <h2 className="font-clash text-xl font-medium text-[var(--text)]">Filters</h2>
                 <Button variant="ghost" size="icon" onClick={() => setShowFilters(false)}>
                   <X className="w-5 h-5" />
                 </Button>
@@ -197,12 +197,12 @@ const Marketplace = () => {
               <div className="glass-panel rounded-xl p-4">
                 <label className="text-sm text-ev-text2 mb-2 block">Search Brand</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ev-text3" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text3)]" />
                   <Input
                     placeholder="e.g., Tesla, Tata..."
                     value={searchBrand}
                     onChange={(e) => setSearchBrand(e.target.value)}
-                    className="pl-10 bg-ev-bg border-white/10"
+                    className="pl-10 bg-[var(--bg)] border-[var(--border)]"
                     data-testid="search-brand-input"
                   />
                 </div>
@@ -212,12 +212,12 @@ const Marketplace = () => {
               <div className="glass-panel rounded-xl p-4">
                 <label className="text-sm text-ev-text2 mb-2 block">Location</label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ev-text3" />
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text3)]" />
                   <Input
                     placeholder="City..."
                     value={filterCity}
                     onChange={(e) => setFilterCity(e.target.value)}
-                    className="pl-10 bg-ev-bg border-white/10"
+                    className="pl-10 bg-[var(--bg)] border-[var(--border)]"
                     data-testid="search-city-input"
                   />
                 </div>
@@ -227,10 +227,10 @@ const Marketplace = () => {
               <div className="glass-panel rounded-xl p-4">
                 <label className="text-sm text-ev-text2 mb-2 block">Condition</label>
                 <Select value={filterCondition} onValueChange={setFilterCondition}>
-                  <SelectTrigger className="bg-ev-bg border-white/10" data-testid="filter-condition">
+                  <SelectTrigger className="bg-[var(--bg)] border-[var(--border)]" data-testid="filter-condition">
                     <SelectValue placeholder="Any Condition" />
                   </SelectTrigger>
-                  <SelectContent className="bg-ev-card border-white/10">
+                  <SelectContent className="bg-[var(--card)]  border-[var(--border)]">
                     <SelectItem value="all">Any Condition</SelectItem>
                     <SelectItem value="new">New</SelectItem>
                     <SelectItem value="like_new">Like New</SelectItem>
@@ -250,7 +250,7 @@ const Marketplace = () => {
                   onValueChange={setPriceRange}
                   max={10000000}
                   step={100000}
-                  className="[&_[role=slider]]:bg-ev-accent"
+                  className="[&_[role=slider]]:bg-[var(--accent)]"
                   data-testid="price-slider"
                 />
               </div>
@@ -265,7 +265,7 @@ const Marketplace = () => {
                   onValueChange={(v) => setMinRange(v[0])}
                   max={600}
                   step={50}
-                  className="[&_[role=slider]]:bg-ev-accent"
+                  className="[&_[role=slider]]:bg-[var(--accent)]"
                   data-testid="range-slider"
                 />
               </div>
@@ -273,7 +273,7 @@ const Marketplace = () => {
               {/* Clear Filters */}
               <Button
                 variant="outline"
-                className="w-full border-white/10"
+                className="w-full border-[var(--border)]"
                 onClick={() => {
                   setSearchBrand('');
                   setFilterCity('');
@@ -297,7 +297,7 @@ const Marketplace = () => {
               <Button
                 variant="outline"
                 onClick={() => setShowFilters(true)}
-                className="w-full border-white/10"
+                className="w-full border-[var(--border)]"
               >
                 <Filter className="w-4 h-4 mr-2" />
                 Filters
@@ -307,12 +307,12 @@ const Marketplace = () => {
             {/* Car Grid */}
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-10 h-10 text-ev-accent animate-spin" />
+                <Loader2 className="w-10 h-10 text-[var(--accent)] animate-spin" />
               </div>
             ) : cars.length === 0 ? (
               <div className="text-center py-20 glass-panel rounded-2xl">
-                <Car className="w-16 h-16 text-ev-text3 mx-auto mb-4" />
-                <h3 className="font-clash text-xl text-white mb-2">No EVs Found</h3>
+                <Car className="w-16 h-16 text-[var(--text3)] mx-auto mb-4" />
+                <h3 className="font-clash text-xl text-[var(--text)] mb-2">No EVs Found</h3>
                 <p className="text-ev-text2 mb-6">Try adjusting your filters or search criteria</p>
                 <Link to="/sell">
                   <Button className="ev-button">
@@ -336,7 +336,7 @@ const Marketplace = () => {
                       data-testid={`ev-card-${car._id}`}
                     >
                       {/* Image */}
-                      <div className="relative aspect-[4/3] bg-ev-bg2 overflow-hidden">
+                      <div className="relative aspect-[4/3] bg-[var(--bg)]2 overflow-hidden">
                         {car.images?.[0] ? (
                           <img
                             src={
@@ -349,18 +349,18 @@ const Marketplace = () => {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Car className="w-16 h-16 text-ev-text3" />
+                            <Car className="w-16 h-16 text-[var(--text3)]" />
                           </div>
                         )}
 
                         {/* Badges */}
                         <div className="absolute top-3 left-3 flex gap-2">
-                          <Badge className={`${getBatteryColor(car.battery_health_score)} text-white`}>
+                          <Badge className={`${getBatteryColor(car.battery_health_score)} text-[var(--text)]`}>
                             <Battery className="w-3 h-3 mr-1" />
                             {car.battery_health_score || '—'}%
                           </Badge>
                           {car.fast_charging_supported && (
-                            <Badge className="bg-ev-blue text-white">
+                            <Badge className="bg-ev-blue text-[var(--text)]">
                               <Zap className="w-3 h-3" />
                             </Badge>
                           )}
@@ -379,7 +379,7 @@ const Marketplace = () => {
                         {/* Seller type */}
                         {car.seller_type === 'dealer' && (
                           <div className="absolute bottom-3 left-3">
-                            <Badge className="bg-ev-purple text-white">Dealer</Badge>
+                            <Badge className="bg-ev-purple text-[var(--text)]">Dealer</Badge>
                           </div>
                         )}
                       </div>
@@ -388,12 +388,12 @@ const Marketplace = () => {
                       <div className="p-4">
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <h3 className="font-clash font-medium text-white group-hover:text-ev-accent transition-colors">
+                            <h3 className="font-clash font-medium text-[var(--text)] group-hover:text-[var(--accent)] transition-colors">
                               {car.brand} {car.model}
                             </h3>
-                            <p className="text-ev-text3 text-sm">{car.year}</p>
+                            <p className="text-[var(--text3)] text-sm">{car.year}</p>
                           </div>
-                          <span className="font-clash font-semibold text-ev-accent">
+                          <span className="font-clash font-semibold text-[var(--accent)]">
                             ₹{formatPrice(car.price)}
                           </span>
                         </div>
@@ -409,7 +409,7 @@ const Marketplace = () => {
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-1 text-ev-text3 text-xs">
+                        <div className="flex items-center gap-1 text-[var(--text3)] text-xs">
                           <MapPin className="w-3 h-3" />
                           {car.city}
                         </div>

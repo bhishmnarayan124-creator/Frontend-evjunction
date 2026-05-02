@@ -10,6 +10,7 @@
   --bg3: #0b1423;
   --bg4: #0e1c30;
   --bg5: green;
+  --navbar-bg: rgba(5, 9, 15, 0.85);
   --card: #0d1928;
   --card2: #101f32;
   --border: rgba(255, 255, 255, 0.07);
@@ -55,7 +56,29 @@
   --ring: 160 100% 45%;
   --radius: 0.75rem;
 }
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg2: #f5f7fb;
+  --bg3: #eef2f7;
+  --bg4: #e4ebf3;
+  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --card: #ffffff;
+  --card2: #f8fafc;
 
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #94a3b8;
+
+  --border: rgba(0, 0, 0, 0.08);
+  --border2: rgba(0, 0, 0, 0.15);
+
+  --accent: #00a878;
+  --accent-dim: rgba(0, 168, 120, 0.1);
+
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --orange: #ea580c;
+}
 * {
   box-sizing: border-box;
   margin: 0;

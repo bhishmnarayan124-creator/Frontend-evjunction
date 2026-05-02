@@ -23,8 +23,18 @@ import HotelDetails from "./pages/HotelDtails";
 import NotificationsPage from "./pages/Notificationspage";
 import AddChargerStation from "./pages/Addchargerstation";
 import Wishlist from "./pages/Wishlist";
+import { useEffect } from "react";
 
 function App() {
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -47,14 +57,14 @@ function App() {
               <Route path="/hotels/:id" element={<HotelDetails />} />
               {/* Add more routes as needed */}
               <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/add-charger" element={<AddChargerStation/>} />
+              <Route path="/add-charger" element={<AddChargerStation />} />
               <Route path="/wishlist" element={<Wishlist />} />
             </Routes>
           </main>
           <Footer />
         </div>
-        <Toaster 
-          position="top-right" 
+        <Toaster
+          position="top-right"
           toastOptions={{
             style: {
               background: 'var(--card)',

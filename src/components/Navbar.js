@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Bell, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import ThemeToggle from './ui/ThemeToggle';
 
 const Navbar = () => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
@@ -26,7 +27,7 @@ const Navbar = () => {
     <nav 
       className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center px-6"
       style={{ 
-        background: 'rgba(5, 9, 15, 0.85)', 
+        background: 'var(--navbar-bg)',
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid var(--border)'
       }}
@@ -35,7 +36,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between w-full max-w-[1400px] mx-auto">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2" data-testid="navbar-logo">
-          <span className="font-clash font-bold text-xl text-white">
+          <span className="font-clash font-bold text-xl text-[var(--text)]">
             EV<span className="text-[var(--accent)] italic">Junctions</span>
           </span>
         </Link>
@@ -50,7 +51,7 @@ const Navbar = () => {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 location.pathname === link.path
                   ? 'text-[var(--accent)]'
-                  : 'text-[var(--text2)] hover:text-white'
+                  : 'text-[var(--text2)] hover:text-[var(--text)]'
               }`}
             >
               {link.label}
@@ -60,12 +61,13 @@ const Navbar = () => {
 
         {/* Desktop Auth */}
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
           {isAuthenticated ? (
             <>
                 {!isAdmin && (
                   <Link
                     to="/notifications"
-                    className="p-2 rounded-lg text-[var(--text2)] hover:text-white hover:bg-white/5 relative"
+                    className="p-2 rounded-lg text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] relative"
                   >
                     <Bell className="w-5 h-5" />
                     <span className="absolute top-1 right-1 w-2 h-2 bg-[var(--accent)] rounded-full"></span>
@@ -76,7 +78,7 @@ const Navbar = () => {
                   <div className="w-8 h-8 rounded-full bg-[var(--accent-dim)] flex items-center justify-center text-[var(--accent)] font-bold text-sm">
                     {user?.name?.charAt(0) || 'U'}
                   </div>
-                  <span className="text-sm font-medium text-white">{user?.name?.split(' ')[0]}</span>
+                  <span className="text-sm font-medium text-[var(--text)]">{user?.name?.split(' ')[0]}</span>
                 </Link>
                 {isAdmin && (
                   <Link 
@@ -117,7 +119,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 text-[var(--text2)] hover:text-white"
+          className="md:hidden p-2 text-[var(--text2)] hover:text-[var(--text)]"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           data-testid="mobile-menu-btn"
         >
@@ -140,19 +142,20 @@ const Navbar = () => {
                 className={`block px-4 py-3 rounded-lg transition-all ${
                   location.pathname === link.path
                     ? 'bg-[var(--accent-dim)] text-[var(--accent)]'
-                    : 'text-[var(--text2)] hover:text-white hover:bg-white/5'
+                    : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
             <div className="border-t border-[var(--border)] pt-4 mt-4">
+              <ThemeToggle />
               {isAuthenticated ? (
                 <>
                   <Link
                     to="/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-3 rounded-lg text-[var(--text2)] hover:text-white"
+                    className="block px-4 py-3 rounded-lg text-[var(--text2)] hover:text-[var(--text)]"
                   >
                     Dashboard
                   </Link>

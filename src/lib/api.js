@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  process.env.REACT_APP_BACKEND_URL ||
+  // process.env.REACT_APP_BACKEND_URL ||
   "http://localhost:5001";
 
 // axios instance
@@ -62,6 +62,15 @@ export const authAPI = {
     api.put("/auth/profile", data),
 
   checkAdminExists: () => api.get("/auth/admin-exists"),
+
+  forgotPasswordSendOTP: (data) =>
+    api.post("/auth/forgot-password/send-otp", data),
+
+  forgotPasswordVerifyOTP: (data) =>
+    api.post("/auth/forgot-password/verify-otp", data),
+
+  forgotPasswordReset: (data) =>
+    api.post("/auth/forgot-password/reset", data),
 };
 
 /* ===============================

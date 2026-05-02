@@ -164,7 +164,7 @@ const ForgotPassword = ({ onBack }) => {
     }
     setLoading(true);
     try {
-      await authAPI.forgotPasswordSendOTP({ email: email || undefined, phone: phone || undefined });
+      await authAPI.forgotPasswordSendOTP({ email: email || undefined, phone: phone ? `+91${phone}` : undefined });
       toast.success('OTP sent to your registered phone number!');
       setStep('otp');
       startTimer();
@@ -185,7 +185,7 @@ const ForgotPassword = ({ onBack }) => {
     try {
       const res = await authAPI.forgotPasswordVerifyOTP({
         email: email || undefined,
-        phone: phone || undefined,
+        phone: phone ? `+91${phone}` : undefined,
         otp,
       });
       // Expected response: { reset_token, account: { name, masked_email } }
@@ -205,7 +205,7 @@ const ForgotPassword = ({ onBack }) => {
     if (resendTimer > 0) return;
     setLoading(true);
     try {
-      await authAPI.forgotPasswordSendOTP({ email: email || undefined, phone: phone || undefined });
+      await authAPI.forgotPasswordSendOTP({ email: email || undefined, phone: phone ? `+91${phone}` : undefined });
       toast.success('OTP resent!');
       setOtp('');
       startTimer();
@@ -333,7 +333,7 @@ const ForgotPassword = ({ onBack }) => {
         </h2>
         <p className="text-xs text-[var(--text2)] mt-1 leading-relaxed">
           A 6-digit OTP has been sent to the phone number linked with{' '}
-          <span className="text-[var(--text)] font-semibold">{email || phone}</span>
+          <span className="text-[var(--text)] font-semibold">{email || `+91 ${phone}`}</span>
         </p>
       </div>
 
@@ -480,8 +480,8 @@ const ForgotPassword = ({ onBack }) => {
                       (level <= strength
                         ? strength === 1 ? 'bg-red-400'
                           : strength === 2 ? 'bg-orange-400'
-                          : strength === 3 ? 'bg-yellow-400'
-                          : 'bg-emerald-400'
+                            : strength === 3 ? 'bg-yellow-400'
+                              : 'bg-emerald-400'
                         : 'bg-[var(--border)]')
                     }
                   />
@@ -617,7 +617,9 @@ const Auth = () => {
           email: formData.email,
           password: formData.password,
           name: formData.name,
-          phone: formData.phone || undefined,
+          phone: formData.phone
+            ? `+91${formData.phone}`
+            : undefined,
           city: formData.city || undefined,
           role: formData.role,
         });
