@@ -60,6 +60,8 @@ export const authAPI = {
 
   updateProfile: (data) =>
     api.put("/auth/profile", data),
+
+  checkAdminExists: () => api.get("/auth/admin-exists"),
 };
 
 /* ===============================

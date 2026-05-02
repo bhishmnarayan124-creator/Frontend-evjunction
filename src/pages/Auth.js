@@ -73,6 +73,7 @@ const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { login, isAuthenticated, user } = useAuth();
+  const [adminExists, setAdminExists] = useState(false);
 
   const [mode, setMode] = useState(
     searchParams.get('mode') === 'register' ? 'register' : 'login'
@@ -88,6 +89,23 @@ const Auth = () => {
   });
 
   const selectedRole = ROLES.find((r) => r.value === formData.role);
+
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      try {
+        const res = await authAPI.checkAdminExists();
+        setAdminExists(res.data.adminExists);
+      } catch (err) {
+        console.error("Admin check failed", err);
+      }
+    };
+
+    checkAdmin();
+  }, []);
+
+
+
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -191,7 +209,14 @@ const Auth = () => {
             <button
               key={role.value}
               type="button"
-              onClick={() => handleChange('role', role.value)}
+              onClick={() => {
+                if (role.value === "admin" && adminExists) {
+                  toast.error("You cannot create admin account. Admin account already exists.");
+                  return;
+                }
+
+                handleChange('role', role.value);
+              }}
               data-testid={'role-btn-' + role.value}
               className={
                 'flex-1 py-2 px-1 text-xs font-semibold rounded-xl border-2 transition-all duration-200 ' +
